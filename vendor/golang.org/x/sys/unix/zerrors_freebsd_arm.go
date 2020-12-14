@@ -1030,7 +1030,7 @@ const (
 	MNT_LAZY                       = 0x3
 	MNT_LOCAL                      = 0x1000
 	MNT_MULTILABEL                 = 0x4000000
-	MNT_NFS4ACLS                   = 0x10
+	MNT_P94ACLS                   = 0x10
 	MNT_NOATIME                    = 0x10000000
 	MNT_NOCLUSTERR                 = 0x40000000
 	MNT_NOCLUSTERW                 = 0x80000000
@@ -1748,7 +1748,7 @@ var errorList = [...]struct {
 	{67, "EPROCLIM", "too many processes"},
 	{68, "EUSERS", "too many users"},
 	{69, "EDQUOT", "disc quota exceeded"},
-	{70, "ESTALE", "stale NFS file handle"},
+	{70, "ESTALE", "stale P9 file handle"},
 	{71, "EREMOTE", "too many levels of remote in path"},
 	{72, "EBADRPC", "RPC struct is bad"},
 	{73, "ERPCMISMATCH", "RPC version wrong"},

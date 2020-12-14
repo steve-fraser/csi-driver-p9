@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nfs
+package p9
 
 import (
 	"fmt"
@@ -73,7 +73,7 @@ func (ns *NodeServer) NodePublishVolume(ctx context.Context, req *csi.NodePublis
 	ep := req.GetVolumeContext()[paramShare]
 	source := fmt.Sprintf("%s:%s", s, ep)
 
-	err = ns.mounter.Mount(source, targetPath, "nfs", mo)
+	err = ns.mounter.Mount(source, targetPath, "p9", mo)
 	if err != nil {
 		if os.IsPermission(err) {
 			return nil, status.Error(codes.PermissionDenied, err.Error())

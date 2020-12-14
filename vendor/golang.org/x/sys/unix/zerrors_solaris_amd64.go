@@ -1480,7 +1480,7 @@ var errorList = [...]struct {
 	{148, "EHOSTUNREACH", "no route to host"},
 	{149, "EALREADY", "operation already in progress"},
 	{150, "EINPROGRESS", "operation now in progress"},
-	{151, "ESTALE", "stale NFS file handle"},
+	{151, "ESTALE", "stale P9 file handle"},
 }
 
 // Signal table

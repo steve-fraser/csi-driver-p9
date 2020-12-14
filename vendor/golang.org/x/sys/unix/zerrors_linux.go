@@ -1292,7 +1292,7 @@ const (
 	NFNL_SUBSYS_OSF                             = 0x5
 	NFNL_SUBSYS_QUEUE                           = 0x3
 	NFNL_SUBSYS_ULOG                            = 0x4
-	NFS_SUPER_MAGIC                             = 0x6969
+	P9_SUPER_MAGIC                             = 0x6969
 	NILFS_SUPER_MAGIC                           = 0x3434
 	NL0                                         = 0x0
 	NL1                                         = 0x100
@@ -2353,7 +2353,7 @@ const (
 	XDP_UMEM_UNALIGNED_CHUNK_FLAG               = 0x1
 	XDP_USE_NEED_WAKEUP                         = 0x8
 	XDP_ZEROCOPY                                = 0x4
-	XENFS_SUPER_MAGIC                           = 0xabba1974
+	XEP9_SUPER_MAGIC                           = 0xabba1974
 	XFS_SUPER_MAGIC                             = 0x58465342
 	Z3FOLD_MAGIC                                = 0x33
 	ZONEFS_MAGIC                                = 0x5a4f4653

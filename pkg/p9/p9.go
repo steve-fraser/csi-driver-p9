@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nfs
+package p9
 
 import (
 	"fmt"
@@ -40,10 +40,10 @@ type Driver struct {
 }
 
 const (
-	DriverName = "nfs.csi.k8s.io"
-	// Address of the NFS server
+	DriverName = "p9.csi.k8s.io"
+	// Address of the P9 server
 	paramServer = "server"
-	// Base directory of the NFS server to create volumes under.
+	// Base directory of the P9 server to create volumes under.
 	// The base directory must be a direct child of the root directory.
 	// The root directory is omitted from the string, for example:
 	//     "base" instead of "/base"
@@ -54,7 +54,7 @@ var (
 	version = "2.0.0"
 )
 
-func NewNFSdriver(nodeID, endpoint string, perm *uint32) *Driver {
+func NewP9driver(nodeID, endpoint string, perm *uint32) *Driver {
 	glog.Infof("Driver: %v version: %v", DriverName, version)
 
 	n := &Driver{
@@ -75,7 +75,7 @@ func NewNFSdriver(nodeID, endpoint string, perm *uint32) *Driver {
 	}
 	n.AddVolumeCapabilityAccessModes(vcam)
 
-	// NFS plugin does not support ControllerServiceCapability now.
+	// P9 plugin does not support ControllerServiceCapability now.
 	// If support is added, it should set to appropriate
 	// ControllerServiceCapability RPC types.
 	n.AddControllerServiceCapabilities([]csi.ControllerServiceCapability_RPC_Type{
@@ -96,7 +96,7 @@ func (n *Driver) Run(testMode bool) {
 	s := NewNonBlockingGRPCServer()
 	s.Start(n.endpoint,
 		NewDefaultIdentityServer(n),
-		// NFS plugin has not implemented ControllerServer
+		// P9 plugin has not implemented ControllerServer
 		// using default controllerserver.
 		NewControllerServer(n),
 		n.ns,

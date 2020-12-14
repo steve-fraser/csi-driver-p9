@@ -110,7 +110,7 @@ const (
 	SYS_SETSID                   = 147 // { int setsid(void); }
 	SYS_QUOTACTL                 = 148 // { int quotactl(char *path, int cmd, int uid, caddr_t arg); }
 	SYS_NLM_SYSCALL              = 154 // { int nlm_syscall(int debug_level, int grace_period, int addr_count, char **addrs); }
-	SYS_NFSSVC                   = 155 // { int nfssvc(int flag, caddr_t argp); }
+	SYS_P9SVC                   = 155 // { int p9svc(int flag, caddr_t argp); }
 	SYS_LGETFH                   = 160 // { int lgetfh(char *fname, struct fhandle *fhp); }
 	SYS_GETFH                    = 161 // { int getfh(char *fname, struct fhandle *fhp); }
 	SYS_SYSARCH                  = 165 // { int sysarch(int op, char *parms); }
@@ -173,7 +173,7 @@ const (
 	SYS_LCHMOD                   = 274 // { int lchmod(char *path, mode_t mode); }
 	SYS_LUTIMES                  = 276 // { int lutimes(char *path, struct timeval *tptr); }
 	SYS_NSTAT                    = 278 // { int nstat(char *path, struct nstat *ub); }
-	SYS_NFSTAT                   = 279 // { int nfstat(int fd, struct nstat *sb); }
+	SYS_P9TAT                   = 279 // { int p9tat(int fd, struct nstat *sb); }
 	SYS_NLSTAT                   = 280 // { int nlstat(char *path, struct nstat *ub); }
 	SYS_PREADV                   = 289 // { ssize_t preadv(int fd, struct iovec *iovp, u_int iovcnt, off_t offset); }
 	SYS_PWRITEV                  = 290 // { ssize_t pwritev(int fd, struct iovec *iovp, u_int iovcnt, off_t offset); }

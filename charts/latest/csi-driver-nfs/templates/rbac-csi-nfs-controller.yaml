@@ -3,9 +3,9 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: csi-nfs-controller-sa
+  name: csi-p9-controller-sa
   namespace: {{ .Release.Namespace }}
-{{ include "nfs.labels" . | indent 2 }}
+{{ include "p9.labels" . | indent 2 }}
 ---
 {{- end -}}
 
@@ -13,8 +13,8 @@ metadata:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: nfs-external-provisioner-role
-{{ include "nfs.labels" . | indent 2 }}
+  name: p9-external-provisioner-role
+{{ include "p9.labels" . | indent 2 }}
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -41,14 +41,14 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: nfs-csi-provisioner-binding
-{{ include "nfs.labels" . | indent 2 }}
+  name: p9-csi-provisioner-binding
+{{ include "p9.labels" . | indent 2 }}
 subjects:
   - kind: ServiceAccount
-    name: csi-nfs-controller-sa
+    name: csi-p9-controller-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: nfs-external-provisioner-role
+  name: p9-external-provisioner-role
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}

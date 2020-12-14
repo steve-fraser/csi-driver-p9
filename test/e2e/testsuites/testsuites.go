@@ -25,7 +25,7 @@ import (
 	"time"
 
 	"github.com/container-storage-interface/spec/lib/go/csi"
-	"github.com/kubernetes-csi/csi-driver-nfs/pkg/nfs"
+	"github.com/kubernetes-csi/csi-driver-p9/pkg/p9"
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/gomega"
 	apps "k8s.io/api/apps/v1"
@@ -320,7 +320,7 @@ func NewTestPod(c clientset.Interface, ns *v1.Namespace, command string) *TestPo
 		namespace: ns,
 		pod: &v1.Pod{
 			ObjectMeta: metav1.ObjectMeta{
-				GenerateName: "nfs-volume-tester-",
+				GenerateName: "p9-volume-tester-",
 			},
 			Spec: v1.PodSpec{
 				Containers: []v1.Container{
@@ -426,7 +426,7 @@ type TestDeployment struct {
 }
 
 func NewTestDeployment(c clientset.Interface, ns *v1.Namespace, command string, pvc *v1.PersistentVolumeClaim, volumeName, mountPath string, readOnly bool) *TestDeployment {
-	generateName := "nfs-volume-tester-"
+	generateName := "p9-volume-tester-"
 	selectorValue := fmt.Sprintf("%s%d", generateName, rand.Int())
 	replicas := int32(1)
 	testDeployment := &TestDeployment{
@@ -560,9 +560,9 @@ func (t *TestPersistentVolumeClaim) DeleteBoundPersistentVolume() {
 	framework.ExpectNoError(err)
 }
 
-func (t *TestPersistentVolumeClaim) DeleteBackingVolume(cs *nfs.ControllerServer) {
+func (t *TestPersistentVolumeClaim) DeleteBackingVolume(cs *p9.ControllerServer) {
 	volumeID := t.persistentVolume.Spec.CSI.VolumeHandle
-	ginkgo.By(fmt.Sprintf("deleting nfs volume %q", volumeID))
+	ginkgo.By(fmt.Sprintf("deleting p9 volume %q", volumeID))
 	req := &csi.DeleteVolumeRequest{
 		VolumeId: volumeID,
 	}

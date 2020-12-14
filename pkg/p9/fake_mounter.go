@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nfs
+package p9
 
 import (
 	"fmt"
 	"runtime"
 	"strings"
 
-	"github.com/kubernetes-csi/csi-driver-nfs/pkg/mounter"
+	"github.com/kubernetes-csi/csi-driver-p9/pkg/mounter"
 
 	"k8s.io/utils/mount"
 )

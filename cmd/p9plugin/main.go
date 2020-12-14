@@ -24,7 +24,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/kubernetes-csi/csi-driver-nfs/pkg/nfs"
+	"github.com/kubernetes-csi/csi-driver-p9/pkg/p9"
 )
 
 var (
@@ -42,8 +42,8 @@ func main() {
 	_ = flag.CommandLine.Parse([]string{})
 
 	cmd := &cobra.Command{
-		Use:   "NFS",
-		Short: "CSI based NFS driver",
+		Use:   "P9",
+		Short: "CSI based P9 driver",
 		Run: func(cmd *cobra.Command, args []string) {
 			handle()
 		},
@@ -81,6 +81,6 @@ func handle() {
 		parsedPerm = &permu32
 	}
 
-	d := nfs.NewNFSdriver(nodeID, endpoint, parsedPerm)
+	d := p9.NewP9driver(nodeID, endpoint, parsedPerm)
 	d.Run(false)
 }

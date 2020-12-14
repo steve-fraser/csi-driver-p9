@@ -175,7 +175,7 @@ const (
 	SYS_VM86                         = 166
 	SYS_QUERY_MODULE                 = 167
 	SYS_POLL                         = 168
-	SYS_NFSSERVCTL                   = 169
+	SYS_P9SERVCTL                   = 169
 	SYS_SETRESGID                    = 170
 	SYS_GETRESGID                    = 171
 	SYS_PRCTL                        = 172

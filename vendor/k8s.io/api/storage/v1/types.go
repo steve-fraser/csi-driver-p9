@@ -373,7 +373,7 @@ const (
 	// these operations.
 	// This mode should be selected if the CSIDriver does not support fsGroup modifications,
 	// for example when Kubernetes cannot change ownership and permissions on a volume due
-	// to root-squash settings on a NFS volume.
+	// to root-squash settings on a P9 volume.
 	NoneFSGroupPolicy FSGroupPolicy = "None"
 )
 

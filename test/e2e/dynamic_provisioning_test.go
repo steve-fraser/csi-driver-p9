@@ -19,8 +19,8 @@ package e2e
 import (
 	"fmt"
 
-	"github.com/kubernetes-csi/csi-driver-nfs/test/e2e/driver"
-	"github.com/kubernetes-csi/csi-driver-nfs/test/e2e/testsuites"
+	"github.com/kubernetes-csi/csi-driver-p9/test/e2e/driver"
+	"github.com/kubernetes-csi/csi-driver-p9/test/e2e/testsuites"
 	"github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -32,7 +32,7 @@ import (
 )
 
 var _ = ginkgo.Describe("Dynamic Provisioning", func() {
-	f := framework.NewDefaultFramework("nfs")
+	f := framework.NewDefaultFramework("p9")
 
 	var (
 		cs         clientset.Interface
@@ -59,8 +59,8 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		}
 	})
 
-	testDriver = driver.InitNFSDriver()
-	ginkgo.It("should create a volume on demand with mount options [nfs.csi.k8s.io]", func() {
+	testDriver = driver.InitP9Driver()
+	ginkgo.It("should create a volume on demand with mount options [p9.csi.k8s.io]", func() {
 		pods := []testsuites.PodDetails{
 			{
 				Cmd: "echo 'hello world' > /mnt/test-1/data && grep 'hello world' /mnt/test-1/data",
@@ -84,7 +84,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		test.Run(cs, ns)
 	})
 
-	ginkgo.It("should create multiple PV objects, bind to PVCs and attach all to different pods on the same node [nfs.csi.k8s.io]", func() {
+	ginkgo.It("should create multiple PV objects, bind to PVCs and attach all to different pods on the same node [p9.csi.k8s.io]", func() {
 		pods := []testsuites.PodDetails{
 			{
 				Cmd: "while true; do echo $(date -u) >> /mnt/test-1/data; sleep 100; done",
@@ -121,7 +121,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 	})
 
 	// Track issue https://github.com/kubernetes/kubernetes/issues/70505
-	ginkgo.It("should create a volume on demand and mount it as readOnly in a pod [nfs.csi.k8s.io]", func() {
+	ginkgo.It("should create a volume on demand and mount it as readOnly in a pod [p9.csi.k8s.io]", func() {
 		pods := []testsuites.PodDetails{
 			{
 				Cmd: "touch /mnt/test-1/data",
@@ -145,7 +145,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		test.Run(cs, ns)
 	})
 
-	ginkgo.It("should create a deployment object, write and read to it, delete the pod and write and read to it again [nfs.csi.k8s.io]", func() {
+	ginkgo.It("should create a deployment object, write and read to it, delete the pod and write and read to it again [p9.csi.k8s.io]", func() {
 		pod := testsuites.PodDetails{
 			Cmd: "echo 'hello world' >> /mnt/test-1/data && while true; do sleep 100; done",
 			Volumes: []testsuites.VolumeDetails{
@@ -174,7 +174,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		test.Run(cs, ns)
 	})
 
-	ginkgo.It(fmt.Sprintf("should delete PV with reclaimPolicy %q [nfs.csi.k8s.io]", v1.PersistentVolumeReclaimDelete), func() {
+	ginkgo.It(fmt.Sprintf("should delete PV with reclaimPolicy %q [p9.csi.k8s.io]", v1.PersistentVolumeReclaimDelete), func() {
 		reclaimPolicy := v1.PersistentVolumeReclaimDelete
 		volumes := []testsuites.VolumeDetails{
 			{
@@ -191,7 +191,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		test.Run(cs, ns)
 	})
 
-	ginkgo.It(fmt.Sprintf("should retain PV with reclaimPolicy %q [nfs.csi.k8s.io]", v1.PersistentVolumeReclaimRetain), func() {
+	ginkgo.It(fmt.Sprintf("should retain PV with reclaimPolicy %q [p9.csi.k8s.io]", v1.PersistentVolumeReclaimRetain), func() {
 		reclaimPolicy := v1.PersistentVolumeReclaimRetain
 		volumes := []testsuites.VolumeDetails{
 			{
@@ -208,7 +208,7 @@ var _ = ginkgo.Describe("Dynamic Provisioning", func() {
 		test.Run(cs, ns)
 	})
 
-	ginkgo.It("should create a pod with multiple volumes [nfs.csi.k8s.io]", func() {
+	ginkgo.It("should create a pod with multiple volumes [p9.csi.k8s.io]", func() {
 		volumes := []testsuites.VolumeDetails{}
 		for i := 1; i <= 6; i++ {
 			volume := testsuites.VolumeDetails{

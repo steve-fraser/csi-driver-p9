@@ -2,13 +2,13 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: nfs-csi
-provisioner: nfs.csi.k8s.io
+  name: p9-csi
+provisioner: p9.csi.k8s.io
 parameters:
-  server: nfs-server.default.svc.cluster.local
+  server: p9-server.default.svc.cluster.local
   share: /
 reclaimPolicy: Retain  # only retain is supported
 volumeBindingMode: Immediate
 mountOptions:
   - hard
-  - nfsvers=4.1
+  - p9vers=4.1

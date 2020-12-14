@@ -1,15 +1,15 @@
-# NFS CSI driver development guide
+# P9 CSI driver development guide
 
 ## How to build this project
  - Clone repo
 ```console
 $ mkdir -p $GOPATH/src/sigs.k8s.io/
-$ git clone https://github.com/kubernetes-csi/csi-driver-nfs $GOPATH/src/github.com/kubernetes-csi/csi-driver-nfs
+$ git clone https://github.com/kubernetes-csi/csi-driver-p9 $GOPATH/src/github.com/kubernetes-csi/csi-driver-p9
 ```
 
  - Build CSI driver
 ```console
-$ cd $GOPATH/src/github.com/kubernetes-csi/csi-driver-nfs
+$ cd $GOPATH/src/github.com/kubernetes-csi/csi-driver-p9
 $ make
 ```
 
@@ -31,8 +31,8 @@ $ make build
 
 #### Start CSI driver locally
 ```console
-$ cd $GOPATH/src/github.com/kubernetes-csi/csi-driver-nfs
-$ ./_output/nfsplugin --endpoint tcp://127.0.0.1:10000 --nodeid CSINode -v=5 &
+$ cd $GOPATH/src/github.com/kubernetes-csi/csi-driver-p9
+$ ./_output/p9plugin --endpoint tcp://127.0.0.1:10000 --nodeid CSINode -v=5 &
 ```
 
 #### 0. Set environmnet variables
@@ -48,10 +48,10 @@ $ params="server=127.0.0.1,share=/"
 #### 1. Get plugin info
 ```console
 $ csc identity plugin-info --endpoint "$endpoint"
-"nfs.csi.k8s.io"    "v2.0.0"
+"p9.csi.k8s.io"    "v2.0.0"
 ```
 
-#### 2. Create a new nfs volume
+#### 2. Create a new p9 volume
 ```console
 $ value="$(csc controller new --endpoint "$endpoint" --cap "$cap" "$volname" --req-bytes "$volsize" --params "$params")"
 $ sleep 15
@@ -59,12 +59,12 @@ $ volumeid="$(echo "$value" | awk '{print $1}' | sed 's/"//g')"
 $ echo "Got volume id: $volumeid"
 ```
 
-#### 3. Publish a nfs volume
+#### 3. Publish a p9 volume
 ```
 $ csc node publish --endpoint "$endpoint" --cap "$cap" --vol-context "$params" --target-path "$target_path" "$volumeid"
 ```
 
-#### 4. Unpublish a nfs volume
+#### 4. Unpublish a p9 volume
 ```
 $ csc node unpublish --endpoint "$endpoint" --target-path "$target_path" "$volumeid"
 ```
@@ -74,7 +74,7 @@ $ csc node unpublish --endpoint "$endpoint" --target-path "$target_path" "$volum
 $ csc controller validate-volume-capabilities --endpoint "$endpoint" --cap "$cap" "$volumeid"
 ```
 
-#### 7. Delete the nfs volume
+#### 7. Delete the p9 volume
 ```console
 $ csc controller del --endpoint "$endpoint" "$volumeid" --timeout 10m
 ```
@@ -106,7 +106,7 @@ make push
 - Run E2E test on the Kubernetes cluster.
 
 ```console
-# install NFS CSI Driver on the Kubernetes cluster
+# install P9 CSI Driver on the Kubernetes cluster
 make e2e-bootstrap
 
 # run the E2E test

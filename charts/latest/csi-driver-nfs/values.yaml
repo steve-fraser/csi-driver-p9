@@ -1,6 +1,6 @@
 image:
-    nfs:
-        repository: gcr.io/k8s-staging-sig-storage/nfsplugin
+    p9:
+        repository: gcr.io/k8s-staging-sig-storage/p9plugin
         tag: amd64-linux-canary
         pullPolicy: IfNotPresent
     csiProvisioner:

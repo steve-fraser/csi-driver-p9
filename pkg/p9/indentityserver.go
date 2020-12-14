@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nfs
+package p9
 
 import (
 	"github.com/container-storage-interface/spec/lib/go/csi"

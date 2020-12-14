@@ -85,9 +85,9 @@ type Meminfo struct {
 	// amount of memory dedicated to the lowest level of page
 	// tables.
 	PageTables uint64
-	// NFS pages sent to the server, but not yet committed to
+	// P9 pages sent to the server, but not yet committed to
 	// stable storage
-	NFSUnstable uint64
+	P9Unstable uint64
 	// Memory used for block device "bounce buffers"
 	Bounce uint64
 	// Memory used by FUSE for temporary writeback buffers
@@ -226,8 +226,8 @@ func parseMemInfo(r io.Reader) (*Meminfo, error) {
 			m.KernelStack = v
 		case "PageTables:":
 			m.PageTables = v
-		case "NFS_Unstable:":
-			m.NFSUnstable = v
+		case "P9_Unstable:":
+			m.P9Unstable = v
 		case "Bounce:":
 			m.Bounce = v
 		case "WritebackTmp:":

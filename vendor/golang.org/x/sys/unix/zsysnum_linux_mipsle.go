@@ -195,7 +195,7 @@ const (
 	SYS_GETRESUID                    = 4186
 	SYS_QUERY_MODULE                 = 4187
 	SYS_POLL                         = 4188
-	SYS_NFSSERVCTL                   = 4189
+	SYS_P9SERVCTL                   = 4189
 	SYS_SETRESGID                    = 4190
 	SYS_GETRESGID                    = 4191
 	SYS_PRCTL                        = 4192

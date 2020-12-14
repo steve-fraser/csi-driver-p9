@@ -2,11 +2,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: statefulset-nfs
+  name: statefulset-p9
   labels:
     app: nginx
 spec:
-  serviceName: statefulset-nfs
+  serviceName: statefulset-p9
   replicas: 3
   template:
     metadata:
@@ -16,15 +16,15 @@ spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-        - name: statefulset-nfs
+        - name: statefulset-p9
           image: mcr.microsoft.com/oss/nginx/nginx:1.17.3-alpine
           command:
             - "/bin/sh"
             - "-c"
-            - while true; do echo $(date) >> /mnt/nfs/outfile; sleep 1; done
+            - while true; do echo $(date) >> /mnt/p9/outfile; sleep 1; done
           volumeMounts:
             - name: persistent-storage
-              mountPath: /mnt/nfs
+              mountPath: /mnt/p9
   updateStrategy:
     type: RollingUpdate
   selector:
@@ -34,7 +34,7 @@ spec:
     - metadata:
         name: persistent-storage
         annotations:
-          volume.beta.kubernetes.io/storage-class: nfs-csi
+          volume.beta.kubernetes.io/storage-class: p9-csi
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:

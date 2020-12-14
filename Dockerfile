@@ -14,9 +14,9 @@
 
 FROM centos:latest
 
-# Copy nfsplugin from build _output directory
-COPY bin/nfsplugin /nfsplugin
+# Copy p9plugin from build _output directory
+COPY bin/p9plugin /p9plugin
 
-RUN yum -y install nfs-utils epel-release jq && yum clean all
+RUN yum -y install p9-utils epel-release jq && yum clean all
 
-ENTRYPOINT ["/nfsplugin"]
+ENTRYPOINT ["/p9plugin"]

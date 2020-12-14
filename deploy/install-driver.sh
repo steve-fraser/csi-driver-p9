@@ -21,7 +21,7 @@ if [[ "$#" -gt 0 ]]; then
   ver="$1"
 fi
 
-repo="https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/$ver/deploy"
+repo="https://raw.githubusercontent.com/kubernetes-csi/csi-driver-p9/$ver/deploy"
 if [[ "$#" -gt 1 ]]; then
   if [[ "$2" == *"local"* ]]; then
     echo "use local deploy"
@@ -33,9 +33,9 @@ if [ $ver != "master" ]; then
   repo="$repo/$ver"
 fi
 
-echo "Installing NFS CSI driver, version: $ver ..."
-kubectl apply -f $repo/rbac-csi-nfs-controller.yaml
-kubectl apply -f $repo/csi-nfs-driverinfo.yaml
-kubectl apply -f $repo/csi-nfs-controller.yaml
-kubectl apply -f $repo/csi-nfs-node.yaml
-echo 'NFS CSI driver installed successfully.'
+echo "Installing P9 CSI driver, version: $ver ..."
+kubectl apply -f $repo/rbac-csi-p9-controller.yaml
+kubectl apply -f $repo/csi-p9-driverinfo.yaml
+kubectl apply -f $repo/csi-p9-controller.yaml
+kubectl apply -f $repo/csi-p9-node.yaml
+echo 'P9 CSI driver installed successfully.'

@@ -2,20 +2,20 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: csi-nfs-controller
+  name: csi-p9-controller
   namespace: {{ .Release.Namespace }}
-{{ include "nfs.labels" . | indent 2 }}
+{{ include "p9.labels" . | indent 2 }}
 spec:
   replicas: {{ .Values.controller.replicas }}
   selector:
     matchLabels:
-      app: csi-nfs-controller
+      app: csi-p9-controller
   template:
     metadata:
-{{ include "nfs.labels" . | indent 6 }}
-        app: csi-nfs-controller
+{{ include "p9.labels" . | indent 6 }}
+        app: csi-p9-controller
     spec:
-      serviceAccountName: csi-nfs-controller-sa
+      serviceAccountName: csi-p9-controller-sa
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
@@ -63,14 +63,14 @@ spec:
             requests:
               cpu: 10m
               memory: 20Mi
-        - name: nfs
-          image: "{{ .Values.image.nfs.repository }}:{{ .Values.image.nfs.tag }}"
+        - name: p9
+          image: "{{ .Values.image.p9.repository }}:{{ .Values.image.p9.tag }}"
           securityContext:
             privileged: true
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          imagePullPolicy: {{ .Values.image.nfs.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.p9.pullPolicy }}
           args:
             - "-v=5"
             - "--nodeid=$(NODE_ID)"
@@ -100,7 +100,7 @@ spec:
       volumes:
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi-nfsplugin
+            path: /var/lib/kubelet/plugins/csi-p9plugin
             type: DirectoryOrCreate
         - name: pods-mount-dir
           hostPath:

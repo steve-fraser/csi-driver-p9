@@ -1,6 +1,6 @@
 image:
-    nfs:
-        repository: quay.io/k8scsi/nfsplugin
+    p9:
+        repository: quay.io/k8scsi/p9plugin
         tag: v2.0.0
         pullPolicy:   IfNotPresent
     csiProvisioner:

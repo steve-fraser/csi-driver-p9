@@ -91,11 +91,11 @@ type pvcval struct{}
 type PVCMap map[types.NamespacedName]pvcval
 
 // PersistentVolumeConfig is consumed by MakePersistentVolume() to generate a PV object
-// for varying storage options (NFS, ceph, glusterFS, etc.).
+// for varying storage options (P9, ceph, glusterFS, etc.).
 // (+optional) prebind holds a pre-bound PVC
 // Example pvSource:
 //	pvSource: api.PersistentVolumeSource{
-//		NFS: &api.NFSVolumeSource{
+//		P9: &api.P9VolumeSource{
 //	 		...
 //	 	},
 //	 }
@@ -325,7 +325,7 @@ func CreatePVC(c clientset.Interface, ns string, pvc *v1.PersistentVolumeClaim) 
 	return pvc, nil
 }
 
-// CreatePVCPV creates a PVC followed by the PV based on the passed in nfs-server ip and
+// CreatePVCPV creates a PVC followed by the PV based on the passed in p9-server ip and
 // namespace. If the "preBind" bool is true then pre-bind the PV to the PVC
 // via the PV's ClaimRef. Return the pv and pvc to reflect the created objects.
 // Note: in the pre-bind case the real PVC name, which is generated, is not
@@ -359,7 +359,7 @@ func CreatePVCPV(c clientset.Interface, pvConfig PersistentVolumeConfig, pvcConf
 	return pv, pvc, nil
 }
 
-// CreatePVPVC creates a PV followed by the PVC based on the passed in nfs-server ip and
+// CreatePVPVC creates a PV followed by the PVC based on the passed in p9-server ip and
 // namespace. If the "preBind" bool is true then pre-bind the PVC to the PV
 // via the PVC's VolumeName. Return the pv and pvc to reflect the created
 // objects.
@@ -540,7 +540,7 @@ func makePvcKey(ns, name string) types.NamespacedName {
 	return types.NamespacedName{Namespace: ns, Name: name}
 }
 
-// MakePersistentVolume returns a PV definition based on the nfs server IP. If the PVC is not nil
+// MakePersistentVolume returns a PV definition based on the p9 server IP. If the PVC is not nil
 // then the PV is defined with a ClaimRef which includes the PVC's namespace.
 // If the PVC is nil then the PV is not defined with a ClaimRef.  If no reclaimPolicy
 // is assigned, assumes "Retain". Specs are expected to match the test's PVC.

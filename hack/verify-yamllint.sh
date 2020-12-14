@@ -19,7 +19,7 @@ if [[ -z "$(command -v yamllint)" ]]; then
 fi
 
 LOG=/tmp/yamllint.log
-helmPath=charts/latest/csi-driver-nfs/templates
+helmPath=charts/latest/csi-driver-p9/templates
 
 echo "checking yaml files num ..."
 deployDirNum=`ls deploy/*.yaml | wc -l`

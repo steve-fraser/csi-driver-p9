@@ -21,7 +21,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kubernetes-csi/csi-driver-nfs/pkg/nfs"
+	"github.com/kubernetes-csi/csi-driver-p9/pkg/p9"
 	"github.com/kubernetes-csi/external-snapshotter/v2/pkg/apis/volumesnapshot/v1beta1"
 	v1 "k8s.io/api/core/v1"
 	storagev1 "k8s.io/api/storage/v1"
@@ -30,23 +30,23 @@ import (
 	"k8s.io/klog/v2"
 )
 
-// NFSDriverNameVar is the environment variable use to switch the driver to be used.
-const NFSDriverNameVar = "NFS_CSI_DRIVER"
+// P9DriverNameVar is the environment variable use to switch the driver to be used.
+const P9DriverNameVar = "P9_CSI_DRIVER"
 
-// NFSDriver implements DynamicPVTestDriver interface
-type NFSDriver struct {
+// P9Driver implements DynamicPVTestDriver interface
+type P9Driver struct {
 	driverName string
 }
 
-// InitNFSDriver returns NFSDriver that implements DynamicPVTestDriver interface
-func InitNFSDriver() PVTestDriver {
-	driverName := os.Getenv(NFSDriverNameVar)
+// InitP9Driver returns P9Driver that implements DynamicPVTestDriver interface
+func InitP9Driver() PVTestDriver {
+	driverName := os.Getenv(P9DriverNameVar)
 	if driverName == "" {
-		driverName = nfs.DriverName
+		driverName = p9.DriverName
 	}
 
-	klog.Infof("Using nfs driver: %s", driverName)
-	return &NFSDriver{
+	klog.Infof("Using p9 driver: %s", driverName)
+	return &P9Driver{
 		driverName: driverName,
 	}
 }
@@ -57,25 +57,25 @@ func normalizeProvisioner(provisioner string) string {
 	return strings.ReplaceAll(provisioner, "/", "-")
 }
 
-func (d *NFSDriver) GetDynamicProvisionStorageClass(parameters map[string]string, mountOptions []string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, bindingMode *storagev1.VolumeBindingMode, allowedTopologyValues []string, namespace string) *storagev1.StorageClass {
+func (d *P9Driver) GetDynamicProvisionStorageClass(parameters map[string]string, mountOptions []string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, bindingMode *storagev1.VolumeBindingMode, allowedTopologyValues []string, namespace string) *storagev1.StorageClass {
 	provisioner := d.driverName
 	generateName := fmt.Sprintf("%s-%s-dynamic-sc-", namespace, normalizeProvisioner(provisioner))
 	return getStorageClass(generateName, provisioner, parameters, mountOptions, reclaimPolicy, bindingMode, nil)
 }
 
-func (d *NFSDriver) GetPreProvisionStorageClass(parameters map[string]string, mountOptions []string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, bindingMode *storagev1.VolumeBindingMode, allowedTopologyValues []string, namespace string) *storagev1.StorageClass {
+func (d *P9Driver) GetPreProvisionStorageClass(parameters map[string]string, mountOptions []string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, bindingMode *storagev1.VolumeBindingMode, allowedTopologyValues []string, namespace string) *storagev1.StorageClass {
 	provisioner := d.driverName
 	generateName := fmt.Sprintf("%s-%s-pre-provisioned-sc-", namespace, provisioner)
 	return getStorageClass(generateName, provisioner, parameters, mountOptions, reclaimPolicy, bindingMode, nil)
 }
 
-func (d *NFSDriver) GetVolumeSnapshotClass(namespace string) *v1beta1.VolumeSnapshotClass {
+func (d *P9Driver) GetVolumeSnapshotClass(namespace string) *v1beta1.VolumeSnapshotClass {
 	provisioner := d.driverName
 	generateName := fmt.Sprintf("%s-%s-dynamic-sc-", namespace, normalizeProvisioner(provisioner))
 	return getVolumeSnapshotClass(generateName, provisioner)
 }
 
-func (d *NFSDriver) GetPersistentVolume(volumeID string, fsType string, size string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, namespace string, attrib map[string]string, nodeStageSecretRef string) *v1.PersistentVolume {
+func (d *P9Driver) GetPersistentVolume(volumeID string, fsType string, size string, reclaimPolicy *v1.PersistentVolumeReclaimPolicy, namespace string, attrib map[string]string, nodeStageSecretRef string) *v1.PersistentVolume {
 	provisioner := d.driverName
 	generateName := fmt.Sprintf("%s-%s-preprovsioned-pv-", namespace, normalizeProvisioner(provisioner))
 	// Default to Retain ReclaimPolicy for pre-provisioned volumes

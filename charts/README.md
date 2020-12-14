@@ -1,6 +1,6 @@
 # Installation with Helm 3
 
-Follow this guide to install the NFS Driver for Kubernetes.
+Follow this guide to install the P9 Driver for Kubernetes.
 
 ## Prerequisites
 
@@ -10,36 +10,36 @@ Follow this guide to install the NFS Driver for Kubernetes.
 
 ```
 $ cd charts/latest
-$ helm install csi-driver-nfs ./csi-driver-nfs -n kube-system
+$ helm install csi-driver-p9 ./csi-driver-p9 -n kube-system
 ```
 ## Install via Helm repository
 
 ```
-$ helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-$ helm install --name csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system
+$ helm repo add csi-driver-p9 https://raw.githubusercontent.com/kubernetes-csi/csi-driver-p9/master/charts
+$ helm install --name csi-driver-p9 csi-driver-p9/csi-driver-p9 --namespace kube-system
 ```
 
 ### Search for available versions
 
 ```
-$ helm search repo -l csi-driver-nfs
+$ helm search repo -l csi-driver-p9
 ```
 
 ### Install a specific version
 
 ```
-https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts --version v2.0.0
+https://raw.githubusercontent.com/kubernetes-csi/csi-driver-p9/master/charts --version v2.0.0
 ```
 
 ## Chart configuration
 
-The following table lists the configurable parameters of the latest NFS CSI Driver chart and their default values.
+The following table lists the configurable parameters of the latest P9 CSI Driver chart and their default values.
 
 | Parameter                                         | Description                                                | Default                                                           |
 |---------------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------------|
-| `image.nfs.repository`                            | csi-driver-nfs docker image                                | gcr.io/k8s-staging-sig-storage/nfsplugin                          |
-| `image.nfs.tag`                                   | csi-driver-nfs docker image tag                            | amd64-linux-canary                                                |
-| `image.nfs.pullPolicy`                            | csi-driver-nfs image pull policy                           | IfNotPresent                                                      |
+| `image.p9.repository`                            | csi-driver-p9 docker image                                | gcr.io/k8s-staging-sig-storage/p9plugin                          |
+| `image.p9.tag`                                   | csi-driver-p9 docker image tag                            | amd64-linux-canary                                                |
+| `image.p9.pullPolicy`                            | csi-driver-p9 image pull policy                           | IfNotPresent                                                      |
 | `image.csiProvisioner.repository`                 | csi-provisioner docker image                               | k8s.gcr.io/sig-storage/csi-provisioner                            |
 | `image.csiProvisioner.tag`                        | csi-provisioner docker image tag                           | v2.0.4                                                            |
 | `image.csiProvisioner.pullPolicy`                 | csi-provisioner image pull policy                          | IfNotPresent                                                      |
@@ -49,9 +49,9 @@ The following table lists the configurable parameters of the latest NFS CSI Driv
 | `image.nodeDriverRegistrar.repository`            | csi-node-driver-registrar docker image                     | k8s.gcr.io/sig-storage/csi-node-driver-registrar                  |
 | `image.nodeDriverRegistrar.tag`                   | csi-node-driver-registrar docker image tag                 | v2.0.1                                                            |
 | `image.nodeDriverRegistrar.pullPolicy`            | csi-node-driver-registrar image pull policy                | IfNotPresent                                                      |
-| `serviceAccount.create`                           | whether create service account of csi-nfs-controller       | true                                                              |
-| `rbac.create`                                     | whether create rbac of csi-nfs-controller                  | true                                                              |
-| `controller.replicas`                             | the replicas of csi-nfs-controller                         | 2                                                                 |
+| `serviceAccount.create`                           | whether create service account of csi-p9-controller       | true                                                              |
+| `rbac.create`                                     | whether create rbac of csi-p9-controller                  | true                                                              |
+| `controller.replicas`                             | the replicas of csi-p9-controller                         | 2                                                                 |
 
 ## Troubleshooting
 

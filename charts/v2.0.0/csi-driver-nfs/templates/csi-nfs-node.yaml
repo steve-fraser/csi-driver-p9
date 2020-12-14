@@ -1,21 +1,21 @@
 # This YAML file contains driver-registrar & csi driver nodeplugin API objects
-# that are necessary to run CSI nodeplugin for nfs
+# that are necessary to run CSI nodeplugin for p9
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
-  name: csi-nfs-node
+  name: csi-p9-node
   namespace: {{ .Release.Namespace }}
-{{ include "nfs.labels" . | indent 2 }}
+{{ include "p9.labels" . | indent 2 }}
 spec:
   selector:
     matchLabels:
-      app: csi-nfs-node
+      app: csi-p9-node
   template:
     metadata:
-{{ include "nfs.labels" . | indent 6 }}
-        app: csi-nfs-node
+{{ include "p9.labels" . | indent 6 }}
+        app: csi-p9-node
     spec:
-      hostNetwork: true # original nfs connection would be broken without hostNetwork setting
+      hostNetwork: true # original p9 connection would be broken without hostNetwork setting
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: node-driver-registrar
@@ -23,11 +23,11 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "rm -rf /registration/csi-nfsplugin /registration/csi-nfsplugin-reg.sock"]
+                command: ["/bin/sh", "-c", "rm -rf /registration/csi-p9plugin /registration/csi-p9plugin-reg.sock"]
           args:
             - --v=5
             - --csi-address=/plugin/csi.sock
-            - --kubelet-registration-path=/var/lib/kubelet/plugins/csi-nfsplugin/csi.sock
+            - --kubelet-registration-path=/var/lib/kubelet/plugins/csi-p9plugin/csi.sock
           env:
             - name: KUBE_NODE_NAME
               valueFrom:
@@ -39,13 +39,13 @@ spec:
               mountPath: /plugin
             - name: registration-dir
               mountPath: /registration
-        - name: nfs
+        - name: p9
           securityContext:
             privileged: true
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: "{{ .Values.image.nfs.repository }}:{{ .Values.image.nfs.tag }}"
+          image: "{{ .Values.image.p9.repository }}:{{ .Values.image.p9.tag }}"
           args :
             - "-v=5"
             - "--nodeid=$(NODE_ID)"
@@ -67,7 +67,7 @@ spec:
       volumes:
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi-nfsplugin
+            path: /var/lib/kubelet/plugins/csi-p9plugin
             type: DirectoryOrCreate
         - name: pods-mount-dir
           hostPath:

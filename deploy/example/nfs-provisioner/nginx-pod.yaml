@@ -11,13 +11,13 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   mountOptions:
     - hard
-    - nfsvers=4.1
+    - p9vers=4.1
   csi:
-    driver: nfs.csi.k8s.io
+    driver: p9.csi.k8s.io
     readOnly: false
     volumeHandle: unique-volumeid  # make sure it's a unique id in the cluster
     volumeAttributes:
-      server: nfs-server.default.svc.cluster.local
+      server: p9-server.default.svc.cluster.local
       share: /
 ---
 kind: PersistentVolumeClaim
@@ -36,7 +36,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-nfs-example
+  name: nginx-p9-example
 spec:
   containers:
   - image: nginx

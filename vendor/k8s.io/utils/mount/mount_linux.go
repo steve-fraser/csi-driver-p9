@@ -91,7 +91,7 @@ func (mounter *Mounter) MountSensitive(source string, target string, fstype stri
 	}
 	// The list of filesystems that require containerized mounter on GCI image cluster
 	fsTypesNeedMounter := map[string]struct{}{
-		"nfs":       {},
+		"p9":       {},
 		"glusterfs": {},
 		"ceph":      {},
 		"cifs":      {},

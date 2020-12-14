@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nfs
+package p9
 
 import (
 	"os"
@@ -44,7 +44,7 @@ var (
 func initTestController(t *testing.T) *ControllerServer {
 	var perm *uint32
 	mounter := &mount.FakeMounter{MountPoints: []mount.MountPoint{}}
-	driver := NewNFSdriver("", "", perm)
+	driver := NewP9driver("", "", perm)
 	driver.ns = NewNodeServer(driver, mounter)
 	return NewControllerServer(driver)
 }

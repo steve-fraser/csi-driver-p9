@@ -28,7 +28,7 @@ import (
 
 	"time"
 
-	"github.com/kubernetes-csi/csi-driver-nfs/pkg/nfs"
+	"github.com/kubernetes-csi/csi-driver-p9/pkg/p9"
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/gomega"
 	"github.com/pborman/uuid"
@@ -43,12 +43,12 @@ const (
 var (
 	nodeID                        = os.Getenv("NODE_ID")
 	perm                          *uint32
-	nfsDriver                     *nfs.Driver
+	p9Driver                     *p9.Driver
 	defaultStorageClassParameters = map[string]string{
-		"server": "nfs-server.default.svc.cluster.local",
+		"server": "p9-server.default.svc.cluster.local",
 		"share":  "/",
 	}
-	controllerServer *nfs.ControllerServer
+	controllerServer *p9.ControllerServer
 )
 
 type testCmd struct {
@@ -68,28 +68,28 @@ var _ = ginkgo.BeforeSuite(func() {
 	handleFlags()
 	framework.AfterReadingAllFlags(&framework.TestContext)
 
-	nfsDriver = nfs.NewNFSdriver(nodeID, fmt.Sprintf("unix:///tmp/csi-%s.sock", uuid.NewUUID().String()), perm)
-	controllerServer = nfs.NewControllerServer(nfsDriver)
+	p9Driver = p9.NewP9driver(nodeID, fmt.Sprintf("unix:///tmp/csi-%s.sock", uuid.NewUUID().String()), perm)
+	controllerServer = p9.NewControllerServer(p9Driver)
 
-	// install nfs server
-	installNFSServer := testCmd{
+	// install p9 server
+	installP9Server := testCmd{
 		command:  "make",
-		args:     []string{"install-nfs-server"},
-		startLog: "Installing NFS Server...",
-		endLog:   "NFS Server successfully installed",
+		args:     []string{"install-p9-server"},
+		startLog: "Installing P9 Server...",
+		endLog:   "P9 Server successfully installed",
 	}
 
 	e2eBootstrap := testCmd{
 		command:  "make",
 		args:     []string{"e2e-bootstrap"},
-		startLog: "Installing NFS CSI Driver...",
-		endLog:   "NFS CSI Driver Installed",
+		startLog: "Installing P9 CSI Driver...",
+		endLog:   "P9 CSI Driver Installed",
 	}
 	// todo: Install metrics server once added to this driver
 
-	execTestCmd([]testCmd{installNFSServer, e2eBootstrap})
+	execTestCmd([]testCmd{installP9Server, e2eBootstrap})
 	go func() {
-		nfsDriver.Run(false)
+		p9Driver.Run(false)
 	}()
 
 })
@@ -105,20 +105,20 @@ var _ = ginkgo.AfterSuite(func() {
 	// sleep 120s waiting for deployment running complete
 	time.Sleep(120 * time.Second)
 
-	nfsLog := testCmd{
+	p9Log := testCmd{
 		command:  "bash",
-		args:     []string{"test/utils/nfs_log.sh"},
-		startLog: "===================nfs log===================",
+		args:     []string{"test/utils/p9_log.sh"},
+		startLog: "===================p9 log===================",
 		endLog:   "==================================================",
 	}
 
 	e2eTeardown := testCmd{
 		command:  "make",
 		args:     []string{"e2e-teardown"},
-		startLog: "Uninstalling NFS CSI Driver...",
-		endLog:   "NFS Driver uninstalled",
+		startLog: "Uninstalling P9 CSI Driver...",
+		endLog:   "P9 Driver uninstalled",
 	}
-	execTestCmd([]testCmd{nfsLog, e2eTeardown})
+	execTestCmd([]testCmd{p9Log, e2eTeardown})
 
 	// install/uninstall CSI Driver deployment scripts test
 	installDriver := testCmd{
@@ -154,7 +154,7 @@ func execTestCmd(cmds []testCmd) {
 
 	projectRoot, err := os.Getwd()
 	gomega.Expect(err).NotTo(gomega.HaveOccurred())
-	gomega.Expect(strings.HasSuffix(projectRoot, "csi-driver-nfs")).To(gomega.Equal(true))
+	gomega.Expect(strings.HasSuffix(projectRoot, "csi-driver-p9")).To(gomega.Equal(true))
 
 	for _, cmd := range cmds {
 		log.Println(cmd.startLog)

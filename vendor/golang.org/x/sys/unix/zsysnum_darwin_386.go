@@ -111,7 +111,7 @@ const (
 	SYS_SETPRIVEXEC                    = 152
 	SYS_PREAD                          = 153
 	SYS_PWRITE                         = 154
-	SYS_NFSSVC                         = 155
+	SYS_P9SVC                         = 155
 	SYS_STATFS                         = 157
 	SYS_FSTATFS                        = 158
 	SYS_UNMOUNT                        = 159
@@ -173,7 +173,7 @@ const (
 	SYS_INITGROUPS                     = 243
 	SYS_POSIX_SPAWN                    = 244
 	SYS_FFSCTL                         = 245
-	SYS_NFSCLNT                        = 247
+	SYS_P9CLNT                        = 247
 	SYS_FHOPEN                         = 248
 	SYS_MINHERIT                       = 250
 	SYS_SEMSYS                         = 251

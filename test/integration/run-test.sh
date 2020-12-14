@@ -21,21 +21,21 @@ if [[ -z "$(command -v csc)" ]]; then
 fi
 
 function cleanup {
-  echo 'pkill -f nfsplugin'
-  pkill -f nfsplugin
-  echo 'Uninstalling NFS server on localhost'
-  docker rm nfs -f
+  echo 'pkill -f p9plugin'
+  pkill -f p9plugin
+  echo 'Uninstalling P9 server on localhost'
+  docker rm p9 -f
 }
 trap cleanup EXIT
 
-function provision_nfs_server {
-  echo 'Installing NFS server on localhost'
+function provision_p9_server {
+  echo 'Installing P9 server on localhost'
   apt-get update -y
-  apt-get install -y nfs-common
-  docker run -d --name nfs --privileged -p 2049:2049 -v $(pwd)/nfsshare:/nfsshare -e SHARED_DIRECTORY=/nfsshare itsthenetwork/nfs-server-alpine:latest
+  apt-get install -y p9-common
+  docker run -d --name p9 --privileged -p 2049:2049 -v $(pwd)/p9share:/p9share -e SHARED_DIRECTORY=/p9share itsthenetwork/p9-server-alpine:latest
 }
 
-provision_nfs_server
+provision_p9_server
 
 readonly CSC_BIN="$GOBIN/csc"
 readonly cap="1,mount,"
@@ -51,7 +51,7 @@ if [[ "$#" -gt 0 ]] && [[ -n "$1" ]]; then
 fi
 
 # Run CSI driver as a background service
-bin/nfsplugin --endpoint "$endpoint" --nodeid "$nodeid" -v=5 &
+bin/p9plugin --endpoint "$endpoint" --nodeid "$nodeid" -v=5 &
 sleep 5
 
 echo 'Begin to run integration test...'

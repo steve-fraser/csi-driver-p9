@@ -561,7 +561,7 @@ func Statvfs(path string, buf *Statvfs_t) (err error) {
 // msgget
 // msgrcv
 // msgsnd
-// nfssvc
+// p9svc
 // ntp_adjtime
 // pmc_control
 // pmc_get_info

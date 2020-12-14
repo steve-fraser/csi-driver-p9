@@ -17,7 +17,7 @@
 set -e
 
 NS=kube-system
-CONTAINER=nfs
+CONTAINER=p9
 
 echo "print out all nodes status ..."
 kubectl get nodes -o wide
@@ -31,16 +31,16 @@ echo "print out all $NS namespace pods status ..."
 kubectl get pods -n${NS}
 echo "======================================================================================"
 
-echo "print out csi-nfs-controller logs ..."
+echo "print out csi-p9-controller logs ..."
 echo "======================================================================================"
-LABEL='app=csi-nfs-controller'
+LABEL='app=csi-p9-controller'
 kubectl get pods -n${NS} -l${LABEL} \
     | awk 'NR>1 {print $1}' \
     | xargs -I {} kubectl logs {} --prefix -c${CONTAINER} -n${NS}
 
-echo "print out csi-nfs-node logs ..."
+echo "print out csi-p9-node logs ..."
 echo "======================================================================================"
-LABEL='app=csi-nfs-node'
+LABEL='app=csi-p9-node'
 kubectl get pods -n${NS} -l${LABEL} \
     | awk 'NR>1 {print $1}' \
     | xargs -I {} kubectl logs {} --prefix -c${CONTAINER} -n${NS}

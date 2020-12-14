@@ -2,19 +2,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: csi-nfs-controller
+  name: csi-p9-controller
   namespace: kube-system
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: csi-nfs-controller
+      app: csi-p9-controller
   template:
     metadata:
       labels:
-        app: csi-nfs-controller
+        app: csi-p9-controller
     spec:
-      serviceAccountName: csi-nfs-controller-sa
+      serviceAccountName: csi-p9-controller-sa
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
@@ -60,8 +60,8 @@ spec:
             requests:
               cpu: 10m
               memory: 20Mi
-        - name: nfs
-          image: gcr.io/k8s-staging-sig-storage/nfsplugin:amd64-linux-canary
+        - name: p9
+          image: gcr.io/k8s-staging-sig-storage/p9plugin:amd64-linux-canary
           securityContext:
             privileged: true
             capabilities:

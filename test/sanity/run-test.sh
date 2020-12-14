@@ -17,12 +17,12 @@
 set -eo pipefail
 
 function cleanup {
-  echo 'pkill -f nfsplugin'
-  pkill -f nfsplugin
+  echo 'pkill -f p9plugin'
+  pkill -f p9plugin
   echo 'Deleting CSI sanity test binary'
   rm -rf csi-test
-  echo 'Uninstalling NFS server on localhost'
-  docker rm nfs -f
+  echo 'Uninstalling P9 server on localhost'
+  docker rm p9 -f
 }
 trap cleanup EXIT
 
@@ -34,14 +34,14 @@ function install_csi_sanity_bin {
   popd
 }
 
-function provision_nfs_server {
-  echo 'Installing NFS server on localhost'
+function provision_p9_server {
+  echo 'Installing P9 server on localhost'
   apt-get update -y
-  apt-get install -y nfs-common
-  docker run -d --name nfs --privileged -p 2049:2049 -v $(pwd)/nfsshare:/nfsshare -e SHARED_DIRECTORY=/nfsshare itsthenetwork/nfs-server-alpine:latest
+  apt-get install -y p9-common
+  docker run -d --name p9 --privileged -p 2049:2049 -v $(pwd)/p9share:/p9share -e SHARED_DIRECTORY=/p9share itsthenetwork/p9-server-alpine:latest
 }
 
-provision_nfs_server
+provision_p9_server
 install_csi_sanity_bin
 
 readonly endpoint='unix:///tmp/csi.sock'
@@ -50,7 +50,7 @@ if [[ "$#" -gt 0 ]] && [[ -n "$1" ]]; then
   nodeid="$1"
 fi
 
-bin/nfsplugin --endpoint "$endpoint" --nodeid "$nodeid" -v=5 &
+bin/p9plugin --endpoint "$endpoint" --nodeid "$nodeid" -v=5 &
 
 echo 'Begin to run sanity test...'
 readonly CSI_SANITY_BIN='csi-test/cmd/csi-sanity/csi-sanity'

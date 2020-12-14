@@ -2066,21 +2066,21 @@ message LocalVolumeSource {
   optional string fsType = 2;
 }
 
-// Represents an NFS mount that lasts the lifetime of a pod.
-// NFS volumes do not support ownership management or SELinux relabeling.
-message NFSVolumeSource {
-  // Server is the hostname or IP address of the NFS server.
-  // More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
+// Represents an P9 mount that lasts the lifetime of a pod.
+// P9 volumes do not support ownership management or SELinux relabeling.
+message P9VolumeSource {
+  // Server is the hostname or IP address of the P9 server.
+  // More info: https://kubernetes.io/docs/concepts/storage/volumes#p9
   optional string server = 1;
 
-  // Path that is exported by the NFS server.
-  // More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
+  // Path that is exported by the P9 server.
+  // More info: https://kubernetes.io/docs/concepts/storage/volumes#p9
   optional string path = 2;
 
   // ReadOnly here will force
-  // the NFS export to be mounted with read-only permissions.
+  // the P9 export to be mounted with read-only permissions.
   // Defaults to false.
-  // More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
+  // More info: https://kubernetes.io/docs/concepts/storage/volumes#p9
   // +optional
   optional bool readOnly = 3;
 }
@@ -2788,10 +2788,10 @@ message PersistentVolumeSource {
   // +optional
   optional GlusterfsPersistentVolumeSource glusterfs = 4;
 
-  // NFS represents an NFS mount on the host. Provisioned by an admin.
-  // More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
+  // P9 represents an P9 mount on the host. Provisioned by an admin.
+  // More info: https://kubernetes.io/docs/concepts/storage/volumes#p9
   // +optional
-  optional NFSVolumeSource nfs = 5;
+  optional P9VolumeSource p9 = 5;
 
   // RBD represents a Rados Block Device mount on the host that shares a pod's lifetime.
   // More info: https://examples.k8s.io/volumes/rbd/README.md
@@ -5297,10 +5297,10 @@ message VolumeSource {
   // +optional
   optional SecretVolumeSource secret = 6;
 
-  // NFS represents an NFS mount on the host that shares a pod's lifetime
-  // More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
+  // P9 represents an P9 mount on the host that shares a pod's lifetime
+  // More info: https://kubernetes.io/docs/concepts/storage/volumes#p9
   // +optional
-  optional NFSVolumeSource nfs = 7;
+  optional P9VolumeSource p9 = 7;
 
   // ISCSI represents an ISCSI Disk resource that is attached to a
   // kubelet's host machine and then exposed to the pod.

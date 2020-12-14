@@ -1,4 +1,4 @@
-module github.com/kubernetes-csi/csi-driver-nfs
+module github.com/kubernetes-csi/csi-driver-p9
 
 go 1.13
 

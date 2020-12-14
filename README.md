@@ -1,34 +1,34 @@
-# CSI NFS driver
+# CSI P9 driver
 
 ### Overview
 
-This is a repository for [NFS](https://en.wikipedia.org/wiki/Network_File_System) [CSI](https://kubernetes-csi.github.io/docs/) Driver.
+This is a repository for [P9](https://en.wikipedia.org/wiki/Network_File_System) [CSI](https://kubernetes-csi.github.io/docs/) Driver.
 Currently it implements bare minimum of the [CSI spec](https://github.com/container-storage-interface/spec) and is in the alpha state 
 of the development.
 
 #### CSI Feature matrix
 
-| **nfs.csi.k8s.io** | K8s version compatibility | CSI versions compatibility | Dynamic Provisioning | Resize | Snapshots | Raw Block | AccessModes              | Status                                                                       |
+| **p9.csi.k8s.io** | K8s version compatibility | CSI versions compatibility | Dynamic Provisioning | Resize | Snapshots | Raw Block | AccessModes              | Status                                                                       |
 |--------------------|---------------------------|----------------------------|----------------------|--------|-----------|-----------|--------------------------|------------------------------------------------------------------------------|
 |master              | 1.14 +                    | v1.0 +                     |  yes                 |  no    |  no       |  no       | Read/Write Multiple Pods | Alpha                                                                        |
 |v2.0.0              | 1.14 +                    | v1.0 +                     |  no                  |  no    |  no       |  no       | Read/Write Multiple Pods | Alpha                                                                        |
 
 ### Requirements
 
-The CSI NFS driver requires Kubernetes cluster of version 1.14 or newer and 
-preexisting NFS server, whether it is deployed on cluster or provisioned 
+The CSI P9 driver requires Kubernetes cluster of version 1.14 or newer and 
+preexisting P9 server, whether it is deployed on cluster or provisioned 
 independently. The plugin itself provides only a communication layer between 
-resources in the cluser and the NFS server.
+resources in the cluser and the P9 server.
 
 ### Install driver on a Kubernetes cluster
  - install by [kubectl](./docs/install-csi-driver.md)
  - install by [helm charts](./charts)
 
 ### Driver parameters
-Please refer to [`nfs.csi.k8s.io` driver parameters](./docs/driver-parameters.md)
+Please refer to [`p9.csi.k8s.io` driver parameters](./docs/driver-parameters.md)
 
 ### Examples
- - [Set up a NFS Server on a Kubernetes cluster](./deploy/example/nfs-provisioner/README.md)
+ - [Set up a P9 Server on a Kubernetes cluster](./deploy/example/p9-provisioner/README.md)
  - [Basic usage](./deploy/example/README.md)
 
 ### Troubleshooting
