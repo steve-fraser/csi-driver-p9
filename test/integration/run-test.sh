@@ -31,7 +31,7 @@ trap cleanup EXIT
 function provision_p9_server {
   echo 'Installing P9 server on localhost'
   apt-get update -y
-  apt-get install -y p9-common
+  apt-get install -y nfs-common
   docker run -d --name p9 --privileged -p 2049:2049 -v $(pwd)/p9share:/p9share -e SHARED_DIRECTORY=/p9share itsthenetwork/nfs-server-alpine:latest
 }
 
