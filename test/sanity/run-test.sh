@@ -32,7 +32,7 @@ function install_csi_sanity_bin {
   pushd csi-test/cmd/csi-sanity
   make
   popd
-
+}
 
 function provision_p9_server {
   echo 'Installing P9 server on localhost'
