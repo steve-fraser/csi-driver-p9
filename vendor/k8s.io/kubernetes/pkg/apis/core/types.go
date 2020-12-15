@@ -85,9 +85,9 @@ type VolumeSource struct {
 	// Secret represents a secret that should populate this volume.
 	// +optional
 	Secret *SecretVolumeSource
-	// P9 represents an P9 mount on the host that shares a pod's lifetime
+	// NFS represents an NFS mount on the host that shares a pod's lifetime
 	// +optional
-	P9 *P9VolumeSource
+	NFS *NFSVolumeSource
 	// ISCSIVolumeSource represents an ISCSI Disk resource that is attached to a
 	// kubelet's host machine and then exposed to the pod.
 	// +optional
@@ -206,9 +206,9 @@ type PersistentVolumeSource struct {
 	// Glusterfs represents a Glusterfs volume that is attached to a host and exposed to the pod
 	// +optional
 	Glusterfs *GlusterfsPersistentVolumeSource
-	// P9 represents an P9 mount on the host that shares a pod's lifetime
+	// NFS represents an NFS mount on the host that shares a pod's lifetime
 	// +optional
-	P9 *P9VolumeSource
+	NFS *NFSVolumeSource
 	// RBD represents a Rados Block Device mount on the host that shares a pod's lifetime
 	// +optional
 	RBD *RBDPersistentVolumeSource
@@ -927,17 +927,17 @@ type SecretProjection struct {
 	Optional *bool
 }
 
-// P9VolumeSource represents an P9 mount that lasts the lifetime of a pod.
-// P9 volumes do not support ownership management or SELinux relabeling.
-type P9VolumeSource struct {
-	// Server is the hostname or IP address of the P9 server
+// NFSVolumeSource represents an NFS mount that lasts the lifetime of a pod.
+// NFS volumes do not support ownership management or SELinux relabeling.
+type NFSVolumeSource struct {
+	// Server is the hostname or IP address of the NFS server
 	Server string
 
-	// Path is the exported P9 share
+	// Path is the exported NFS share
 	Path string
 
 	// Optional: Defaults to false (read/write). ReadOnly here will force
-	// the P9 export to be mounted with read-only permissions
+	// the NFS export to be mounted with read-only permissions
 	// +optional
 	ReadOnly bool
 }

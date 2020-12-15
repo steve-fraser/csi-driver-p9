@@ -133,7 +133,7 @@ const (
 	SYS_MREMAP                 = 163
 	SYS_QUERY_MODULE           = 167
 	SYS_POLL                   = 168
-	SYS_P9SERVCTL             = 169
+	SYS_NFSSERVCTL             = 169
 	SYS_PRCTL                  = 172
 	SYS_RT_SIGRETURN           = 173
 	SYS_RT_SIGACTION           = 174

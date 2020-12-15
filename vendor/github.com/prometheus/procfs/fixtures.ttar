@@ -127,15 +127,15 @@ device rootfs mounted on / with fstype rootfs
 device sysfs mounted on /sys with fstype sysfs
 device proc mounted on /proc with fstype proc
 device /dev/sda1 mounted on / with fstype ext4
-device 192.168.1.1:/srv/test mounted on /mnt/p9/test with fstype p94 statvers=1.1
+device 192.168.1.1:/srv/test mounted on /mnt/nfs/test with fstype nfs4 statvers=1.1
 	opts:	rw,vers=4.0,rsize=1048576,wsize=1048576,namlen=255,acregmin=3,acregmax=60,acdirmin=30,acdirmax=60,hard,proto=tcp,port=0,timeo=600,retrans=2,sec=sys,mountaddr=192.168.1.1,clientaddr=192.168.1.5,local_lock=none
 	age:	13968
 	caps:	caps=0xfff7,wtmult=512,dtsize=32768,bsize=0,namlen=255
-	p9v4:	bm0=0xfdffafff,bm1=0xf9be3e,bm2=0x0,acl=0x0,pp9=not configured
+	nfsv4:	bm0=0xfdffafff,bm1=0xf9be3e,bm2=0x0,acl=0x0,pnfs=not configured
 	sec:	flavor=1,pseudoflavor=1
 	events:	52 226 0 0 1 13 398 0 0 331 0 47 0 0 77 0 0 77 0 0 0 0 0 0 0 0 0
 	bytes:	1207640230 0 0 0 1210214218 0 295483 0
-	RPC iostats version: 1.0  p/v: 100003/4 (p9)
+	RPC iostats version: 1.0  p/v: 100003/4 (nfs)
 	xprt:	tcp 832 0 1 0 11 6428 6428 0 12154 0 24 26 5726
 	per-op statistics
 	        NULL: 0 0 0 0 0 0 0 0
@@ -2052,7 +2052,7 @@ SReclaimable:    1738124 kB
 SUnreclaim:        69140 kB
 KernelStack:        1616 kB
 PageTables:         5288 kB
-P9_Unstable:          0 kB
+NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:     7833092 kB
@@ -2128,7 +2128,7 @@ Mode: 644
 Directory: fixtures/proc/net/rpc
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/proc/net/rpc/p9
+Path: fixtures/proc/net/rpc/nfs
 Lines: 5
 net 18628 0 18628 6
 rpc 4329785 0 4338291
@@ -2137,7 +2137,7 @@ proc3 22 1 4084749 29200 94754 32580 186 47747 7981 8639 0 6356 0 6962 0 7958 0 
 proc4 61 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/proc/net/rpc/p9d
+Path: fixtures/proc/net/rpc/nfsd
 Lines: 11
 rc 0 6 18622
 fh 0 0 0 0 0

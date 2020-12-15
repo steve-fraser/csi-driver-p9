@@ -47,7 +47,7 @@ const (
 	SYS_UMOUNT2                = 39
 	SYS_MOUNT                  = 40
 	SYS_PIVOT_ROOT             = 41
-	SYS_P9SERVCTL             = 42
+	SYS_NFSSERVCTL             = 42
 	SYS_STATFS                 = 43
 	SYS_FSTATFS                = 44
 	SYS_TRUNCATE               = 45

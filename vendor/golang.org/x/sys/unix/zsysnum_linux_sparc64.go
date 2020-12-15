@@ -240,7 +240,7 @@ const (
 	SYS__SYSCTL                = 251
 	SYS_GETSID                 = 252
 	SYS_FDATASYNC              = 253
-	SYS_P9SERVCTL             = 254
+	SYS_NFSSERVCTL             = 254
 	SYS_SYNC_FILE_RANGE        = 255
 	SYS_CLOCK_SETTIME          = 256
 	SYS_CLOCK_GETTIME          = 257

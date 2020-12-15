@@ -138,7 +138,7 @@ const (
 	SYS_GETLOGIN_R     = 141 // { int sys_getlogin_r(char *namebuf, u_int namelen); }
 	SYS_SETSID         = 147 // { int sys_setsid(void); }
 	SYS_QUOTACTL       = 148 // { int sys_quotactl(const char *path, int cmd, int uid, char *arg); }
-	SYS_P9SVC         = 155 // { int sys_p9svc(int flag, void *argp); }
+	SYS_NFSSVC         = 155 // { int sys_nfssvc(int flag, void *argp); }
 	SYS_GETFH          = 161 // { int sys_getfh(const char *fname, fhandle_t *fhp); }
 	SYS_SYSARCH        = 165 // { int sys_sysarch(int op, void *parms); }
 	SYS_PREAD          = 173 // { ssize_t sys_pread(int fd, void *buf, size_t nbyte, int pad, off_t offset); }

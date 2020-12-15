@@ -179,7 +179,7 @@ const (
 	SYS_GET_KERNEL_SYMS        = 5170
 	SYS_QUERY_MODULE           = 5171
 	SYS_QUOTACTL               = 5172
-	SYS_P9SERVCTL             = 5173
+	SYS_NFSSERVCTL             = 5173
 	SYS_GETPMSG                = 5174
 	SYS_PUTPMSG                = 5175
 	SYS_AFS_SYSCALL            = 5176

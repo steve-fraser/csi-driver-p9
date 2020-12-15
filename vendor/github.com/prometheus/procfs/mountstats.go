@@ -15,10 +15,10 @@ package procfs
 
 // While implementing parsing of /proc/[pid]/mountstats, this blog was used
 // heavily as a reference:
-//   https://utcc.utoronto.ca/~cks/space/blog/linux/P9MountstatsIndex
+//   https://utcc.utoronto.ca/~cks/space/blog/linux/NFSMountstatsIndex
 //
 // Special thanks to Chris Siebenmann for all of his posts explaining the
-// various statistics available for P9.
+// various statistics available for NFS.
 
 import (
 	"bufio"
@@ -65,30 +65,30 @@ type MountStats interface {
 	mountStats()
 }
 
-// A MountStatsP9 is a MountStats implementation for P9v3 and v4 mounts.
-type MountStatsP9 struct {
+// A MountStatsNFS is a MountStats implementation for NFSv3 and v4 mounts.
+type MountStatsNFS struct {
 	// The version of statistics provided.
 	StatVersion string
-	// The mount options of the P9 mount.
+	// The mount options of the NFS mount.
 	Opts map[string]string
-	// The age of the P9 mount.
+	// The age of the NFS mount.
 	Age time.Duration
 	// Statistics related to byte counters for various operations.
-	Bytes P9BytesStats
-	// Statistics related to various P9 event occurrences.
-	Events P9EventsStats
+	Bytes NFSBytesStats
+	// Statistics related to various NFS event occurrences.
+	Events NFSEventsStats
 	// Statistics broken down by filesystem operation.
-	Operations []P9OperationStats
-	// Statistics about the P9 RPC transport.
-	Transport P9TransportStats
+	Operations []NFSOperationStats
+	// Statistics about the NFS RPC transport.
+	Transport NFSTransportStats
 }
 
 // mountStats implements MountStats.
-func (m MountStatsP9) mountStats() {}
+func (m MountStatsNFS) mountStats() {}
 
-// A P9BytesStats contains statistics about the number of bytes read and written
-// by an P9 client to and from an P9 server.
-type P9BytesStats struct {
+// A NFSBytesStats contains statistics about the number of bytes read and written
+// by an NFS client to and from an NFS server.
+type NFSBytesStats struct {
 	// Number of bytes read using the read() syscall.
 	Read uint64
 	// Number of bytes written using the write() syscall.
@@ -97,9 +97,9 @@ type P9BytesStats struct {
 	DirectRead uint64
 	// Number of bytes written using the write() syscall in O_DIRECT mode.
 	DirectWrite uint64
-	// Number of bytes read from the P9 server, in total.
+	// Number of bytes read from the NFS server, in total.
 	ReadTotal uint64
-	// Number of bytes written to the P9 server, in total.
+	// Number of bytes written to the NFS server, in total.
 	WriteTotal uint64
 	// Number of pages read directly via mmap()'d files.
 	ReadPages uint64
@@ -107,8 +107,8 @@ type P9BytesStats struct {
 	WritePages uint64
 }
 
-// A P9EventsStats contains statistics about P9 event occurrences.
-type P9EventsStats struct {
+// A NFSEventsStats contains statistics about NFS event occurrences.
+type NFSEventsStats struct {
 	// Number of times cached inode attributes are re-validated from the server.
 	InodeRevalidate uint64
 	// Number of times cached dentry nodes are re-validated from the server.
@@ -153,21 +153,21 @@ type P9EventsStats struct {
 	WriteExtension uint64
 	// Number of times a file was removed while still open by another process.
 	SillyRename uint64
-	// Number of times the P9 server gave less data than expected while reading.
+	// Number of times the NFS server gave less data than expected while reading.
 	ShortRead uint64
-	// Number of times the P9 server wrote less data than expected while writing.
+	// Number of times the NFS server wrote less data than expected while writing.
 	ShortWrite uint64
-	// Number of times the P9 server indicated EJUKEBOX; retrieving data from
+	// Number of times the NFS server indicated EJUKEBOX; retrieving data from
 	// offline storage.
 	JukeboxDelay uint64
-	// Number of P9 v4.1+ pP9 reads.
-	PP9Read uint64
-	// Number of P9 v4.1+ pP9 writes.
-	PP9Write uint64
+	// Number of NFS v4.1+ pNFS reads.
+	PNFSRead uint64
+	// Number of NFS v4.1+ pNFS writes.
+	PNFSWrite uint64
 }
 
-// A P9OperationStats contains statistics for a single operation.
-type P9OperationStats struct {
+// A NFSOperationStats contains statistics for a single operation.
+type NFSOperationStats struct {
 	// The name of the operation.
 	Operation string
 	// Number of requests performed for this operation.
@@ -190,28 +190,28 @@ type P9OperationStats struct {
 	Errors uint64
 }
 
-// A P9TransportStats contains statistics for the P9 mount RPC requests and
+// A NFSTransportStats contains statistics for the NFS mount RPC requests and
 // responses.
-type P9TransportStats struct {
-	// The transport protocol used for the P9 mount.
+type NFSTransportStats struct {
+	// The transport protocol used for the NFS mount.
 	Protocol string
-	// The local port used for the P9 mount.
+	// The local port used for the NFS mount.
 	Port uint64
 	// Number of times the client has had to establish a connection from scratch
-	// to the P9 server.
+	// to the NFS server.
 	Bind uint64
-	// Number of times the client has made a TCP connection to the P9 server.
+	// Number of times the client has made a TCP connection to the NFS server.
 	Connect uint64
-	// Duration (in jiffies, a kernel internal unit of time) the P9 mount has
+	// Duration (in jiffies, a kernel internal unit of time) the NFS mount has
 	// spent waiting for connections to the server to be established.
 	ConnectIdleTime uint64
-	// Duration since the P9 mount last saw any RPC traffic.
+	// Duration since the NFS mount last saw any RPC traffic.
 	IdleTimeSeconds uint64
-	// Number of RPC requests for this mount sent to the P9 server.
+	// Number of RPC requests for this mount sent to the NFS server.
 	Sends uint64
-	// Number of RPC responses for this mount received from the P9 server.
+	// Number of RPC responses for this mount received from the NFS server.
 	Receives uint64
-	// Number of times the P9 server sent a response with a transaction ID
+	// Number of times the NFS server sent a response with a transaction ID
 	// unknown to this client.
 	BadTransactionIDs uint64
 	// A running counter, incremented on each request as the current difference
@@ -241,8 +241,8 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 		device            = "device"
 		statVersionPrefix = "statvers="
 
-		p93Type = "p9"
-		p94Type = "p94"
+		nfs3Type = "nfs"
+		nfs4Type = "nfs4"
 	)
 
 	var mounts []*Mount
@@ -262,14 +262,14 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 
 		// Does this mount also possess statistics information?
 		if len(ss) > deviceEntryLen {
-			// Only P9v3 and v4 are supported for parsing statistics
-			if m.Type != p93Type && m.Type != p94Type {
+			// Only NFSv3 and v4 are supported for parsing statistics
+			if m.Type != nfs3Type && m.Type != nfs4Type {
 				return nil, fmt.Errorf("cannot parse MountStats for fstype %q", m.Type)
 			}
 
 			statVersion := strings.TrimPrefix(ss[8], statVersionPrefix)
 
-			stats, err := parseMountStatsP9(s, statVersion)
+			stats, err := parseMountStatsNFS(s, statVersion)
 			if err != nil {
 				return nil, err
 			}
@@ -316,9 +316,9 @@ func parseMount(ss []string) (*Mount, error) {
 	}, nil
 }
 
-// parseMountStatsP9 parses a MountStatsP9 by scanning additional information
-// related to P9 statistics.
-func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, error) {
+// parseMountStatsNFS parses a MountStatsNFS by scanning additional information
+// related to NFS statistics.
+func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, error) {
 	// Field indicators for parsing specific types of data
 	const (
 		fieldOpts       = "opts:"
@@ -329,7 +329,7 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 		fieldTransport  = "xprt:"
 	)
 
-	stats := &MountStatsP9{
+	stats := &MountStatsNFS{
 		StatVersion: statVersion,
 	}
 
@@ -339,7 +339,7 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 			break
 		}
 		if len(ss) < 2 {
-			return nil, fmt.Errorf("not enough information for P9 stats: %v", ss)
+			return nil, fmt.Errorf("not enough information for NFS stats: %v", ss)
 		}
 
 		switch ss[0] {
@@ -364,14 +364,14 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 
 			stats.Age = d
 		case fieldBytes:
-			bstats, err := parseP9BytesStats(ss[1:])
+			bstats, err := parseNFSBytesStats(ss[1:])
 			if err != nil {
 				return nil, err
 			}
 
 			stats.Bytes = *bstats
 		case fieldEvents:
-			estats, err := parseP9EventsStats(ss[1:])
+			estats, err := parseNFSEventsStats(ss[1:])
 			if err != nil {
 				return nil, err
 			}
@@ -379,10 +379,10 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 			stats.Events = *estats
 		case fieldTransport:
 			if len(ss) < 3 {
-				return nil, fmt.Errorf("not enough information for P9 transport stats: %v", ss)
+				return nil, fmt.Errorf("not enough information for NFS transport stats: %v", ss)
 			}
 
-			tstats, err := parseP9TransportStats(ss[1:], statVersion)
+			tstats, err := parseNFSTransportStats(ss[1:], statVersion)
 			if err != nil {
 				return nil, err
 			}
@@ -403,8 +403,8 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 		return nil, err
 	}
 
-	// P9 per-operation stats appear last before the next device entry
-	perOpStats, err := parseP9OperationStats(s)
+	// NFS per-operation stats appear last before the next device entry
+	perOpStats, err := parseNFSOperationStats(s)
 	if err != nil {
 		return nil, err
 	}
@@ -414,11 +414,11 @@ func parseMountStatsP9(s *bufio.Scanner, statVersion string) (*MountStatsP9, err
 	return stats, nil
 }
 
-// parseP9BytesStats parses a P9BytesStats line using an input set of
+// parseNFSBytesStats parses a NFSBytesStats line using an input set of
 // integer fields.
-func parseP9BytesStats(ss []string) (*P9BytesStats, error) {
+func parseNFSBytesStats(ss []string) (*NFSBytesStats, error) {
 	if len(ss) != fieldBytesLen {
-		return nil, fmt.Errorf("invalid P9 bytes stats: %v", ss)
+		return nil, fmt.Errorf("invalid NFS bytes stats: %v", ss)
 	}
 
 	ns := make([]uint64, 0, fieldBytesLen)
@@ -431,7 +431,7 @@ func parseP9BytesStats(ss []string) (*P9BytesStats, error) {
 		ns = append(ns, n)
 	}
 
-	return &P9BytesStats{
+	return &NFSBytesStats{
 		Read:        ns[0],
 		Write:       ns[1],
 		DirectRead:  ns[2],
@@ -443,11 +443,11 @@ func parseP9BytesStats(ss []string) (*P9BytesStats, error) {
 	}, nil
 }
 
-// parseP9EventsStats parses a P9EventsStats line using an input set of
+// parseNFSEventsStats parses a NFSEventsStats line using an input set of
 // integer fields.
-func parseP9EventsStats(ss []string) (*P9EventsStats, error) {
+func parseNFSEventsStats(ss []string) (*NFSEventsStats, error) {
 	if len(ss) != fieldEventsLen {
-		return nil, fmt.Errorf("invalid P9 events stats: %v", ss)
+		return nil, fmt.Errorf("invalid NFS events stats: %v", ss)
 	}
 
 	ns := make([]uint64, 0, fieldEventsLen)
@@ -460,7 +460,7 @@ func parseP9EventsStats(ss []string) (*P9EventsStats, error) {
 		ns = append(ns, n)
 	}
 
-	return &P9EventsStats{
+	return &NFSEventsStats{
 		InodeRevalidate:     ns[0],
 		DnodeRevalidate:     ns[1],
 		DataInvalidate:      ns[2],
@@ -486,21 +486,21 @@ func parseP9EventsStats(ss []string) (*P9EventsStats, error) {
 		ShortRead:           ns[22],
 		ShortWrite:          ns[23],
 		JukeboxDelay:        ns[24],
-		PP9Read:            ns[25],
-		PP9Write:           ns[26],
+		PNFSRead:            ns[25],
+		PNFSWrite:           ns[26],
 	}, nil
 }
 
-// parseP9OperationStats parses a slice of P9OperationStats by scanning
+// parseNFSOperationStats parses a slice of NFSOperationStats by scanning
 // additional information about per-operation statistics until an empty
 // line is reached.
-func parseP9OperationStats(s *bufio.Scanner) ([]P9OperationStats, error) {
+func parseNFSOperationStats(s *bufio.Scanner) ([]NFSOperationStats, error) {
 	const (
 		// Minimum number of expected fields in each per-operation statistics set
 		minFields = 9
 	)
 
-	var ops []P9OperationStats
+	var ops []NFSOperationStats
 
 	for s.Scan() {
 		ss := strings.Fields(string(s.Bytes()))
@@ -511,7 +511,7 @@ func parseP9OperationStats(s *bufio.Scanner) ([]P9OperationStats, error) {
 		}
 
 		if len(ss) < minFields {
-			return nil, fmt.Errorf("invalid P9 per-operations stats: %v", ss)
+			return nil, fmt.Errorf("invalid NFS per-operations stats: %v", ss)
 		}
 
 		// Skip string operation name for integers
@@ -525,7 +525,7 @@ func parseP9OperationStats(s *bufio.Scanner) ([]P9OperationStats, error) {
 			ns = append(ns, n)
 		}
 
-		opStats := P9OperationStats{
+		opStats := NFSOperationStats{
 			Operation:                           strings.TrimSuffix(ss[0], ":"),
 			Requests:                            ns[0],
 			Transmissions:                       ns[1],
@@ -547,9 +547,9 @@ func parseP9OperationStats(s *bufio.Scanner) ([]P9OperationStats, error) {
 	return ops, s.Err()
 }
 
-// parseP9TransportStats parses a P9TransportStats line using an input set of
+// parseNFSTransportStats parses a NFSTransportStats line using an input set of
 // integer fields matched to a specific stats version.
-func parseP9TransportStats(ss []string, statVersion string) (*P9TransportStats, error) {
+func parseNFSTransportStats(ss []string, statVersion string) (*NFSTransportStats, error) {
 	// Extract the protocol field. It is the only string value in the line
 	protocol := ss[0]
 	ss = ss[1:]
@@ -562,10 +562,10 @@ func parseP9TransportStats(ss []string, statVersion string) (*P9TransportStats, 
 		} else if protocol == "udp" {
 			expectedLength = fieldTransport10UDPLen
 		} else {
-			return nil, fmt.Errorf("invalid P9 protocol \"%s\" in stats 1.0 statement: %v", protocol, ss)
+			return nil, fmt.Errorf("invalid NFS protocol \"%s\" in stats 1.0 statement: %v", protocol, ss)
 		}
 		if len(ss) != expectedLength {
-			return nil, fmt.Errorf("invalid P9 transport stats 1.0 statement: %v", ss)
+			return nil, fmt.Errorf("invalid NFS transport stats 1.0 statement: %v", ss)
 		}
 	case statVersion11:
 		var expectedLength int
@@ -574,13 +574,13 @@ func parseP9TransportStats(ss []string, statVersion string) (*P9TransportStats, 
 		} else if protocol == "udp" {
 			expectedLength = fieldTransport11UDPLen
 		} else {
-			return nil, fmt.Errorf("invalid P9 protocol \"%s\" in stats 1.1 statement: %v", protocol, ss)
+			return nil, fmt.Errorf("invalid NFS protocol \"%s\" in stats 1.1 statement: %v", protocol, ss)
 		}
 		if len(ss) != expectedLength {
-			return nil, fmt.Errorf("invalid P9 transport stats 1.1 statement: %v", ss)
+			return nil, fmt.Errorf("invalid NFS transport stats 1.1 statement: %v", ss)
 		}
 	default:
-		return nil, fmt.Errorf("unrecognized P9 transport stats version: %q", statVersion)
+		return nil, fmt.Errorf("unrecognized NFS transport stats version: %q", statVersion)
 	}
 
 	// Allocate enough for v1.1 stats since zero value for v1.1 stats will be okay
@@ -601,7 +601,7 @@ func parseP9TransportStats(ss []string, statVersion string) (*P9TransportStats, 
 	}
 
 	// The fields differ depending on the transport protocol (TCP or UDP)
-	// From https://utcc.utoronto.ca/%7Ecks/space/blog/linux/P9MountstatsXprt
+	// From https://utcc.utoronto.ca/%7Ecks/space/blog/linux/NFSMountstatsXprt
 	//
 	// For the udp RPC transport there is no connection count, connect idle time,
 	// or idle time (fields #3, #4, and #5); all other fields are the same. So
@@ -610,7 +610,7 @@ func parseP9TransportStats(ss []string, statVersion string) (*P9TransportStats, 
 		ns = append(ns[:2], append(make([]uint64, 3), ns[2:]...)...)
 	}
 
-	return &P9TransportStats{
+	return &NFSTransportStats{
 		Protocol:                 protocol,
 		Port:                     ns[0],
 		Bind:                     ns[1],

@@ -2345,15 +2345,15 @@ func (m *LocalVolumeSource) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_LocalVolumeSource proto.InternalMessageInfo
 
-func (m *P9VolumeSource) Reset()      { *m = P9VolumeSource{} }
-func (*P9VolumeSource) ProtoMessage() {}
-func (*P9VolumeSource) Descriptor() ([]byte, []int) {
+func (m *NFSVolumeSource) Reset()      { *m = NFSVolumeSource{} }
+func (*NFSVolumeSource) ProtoMessage() {}
+func (*NFSVolumeSource) Descriptor() ([]byte, []int) {
 	return fileDescriptor_83c10c24ec417dc9, []int{82}
 }
-func (m *P9VolumeSource) XXX_Unmarshal(b []byte) error {
+func (m *NFSVolumeSource) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *P9VolumeSource) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *NFSVolumeSource) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	b = b[:cap(b)]
 	n, err := m.MarshalToSizedBuffer(b)
 	if err != nil {
@@ -2361,17 +2361,17 @@ func (m *P9VolumeSource) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 	}
 	return b[:n], nil
 }
-func (m *P9VolumeSource) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_P9VolumeSource.Merge(m, src)
+func (m *NFSVolumeSource) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NFSVolumeSource.Merge(m, src)
 }
-func (m *P9VolumeSource) XXX_Size() int {
+func (m *NFSVolumeSource) XXX_Size() int {
 	return m.Size()
 }
-func (m *P9VolumeSource) XXX_DiscardUnknown() {
-	xxx_messageInfo_P9VolumeSource.DiscardUnknown(m)
+func (m *NFSVolumeSource) XXX_DiscardUnknown() {
+	xxx_messageInfo_NFSVolumeSource.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_P9VolumeSource proto.InternalMessageInfo
+var xxx_messageInfo_NFSVolumeSource proto.InternalMessageInfo
 
 func (m *Namespace) Reset()      { *m = Namespace{} }
 func (*Namespace) ProtoMessage() {}
@@ -5939,7 +5939,7 @@ func init() {
 	proto.RegisterType((*LoadBalancerStatus)(nil), "k8s.io.api.core.v1.LoadBalancerStatus")
 	proto.RegisterType((*LocalObjectReference)(nil), "k8s.io.api.core.v1.LocalObjectReference")
 	proto.RegisterType((*LocalVolumeSource)(nil), "k8s.io.api.core.v1.LocalVolumeSource")
-	proto.RegisterType((*P9VolumeSource)(nil), "k8s.io.api.core.v1.P9VolumeSource")
+	proto.RegisterType((*NFSVolumeSource)(nil), "k8s.io.api.core.v1.NFSVolumeSource")
 	proto.RegisterType((*Namespace)(nil), "k8s.io.api.core.v1.Namespace")
 	proto.RegisterType((*NamespaceCondition)(nil), "k8s.io.api.core.v1.NamespaceCondition")
 	proto.RegisterType((*NamespaceList)(nil), "k8s.io.api.core.v1.NamespaceList")
@@ -11665,7 +11665,7 @@ func (m *LocalVolumeSource) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *P9VolumeSource) Marshal() (dAtA []byte, err error) {
+func (m *NFSVolumeSource) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -11675,12 +11675,12 @@ func (m *P9VolumeSource) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *P9VolumeSource) MarshalTo(dAtA []byte) (int, error) {
+func (m *NFSVolumeSource) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *P9VolumeSource) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *NFSVolumeSource) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -13693,9 +13693,9 @@ func (m *PersistentVolumeSource) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 		i--
 		dAtA[i] = 0x32
 	}
-	if m.P9 != nil {
+	if m.NFS != nil {
 		{
-			size, err := m.P9.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.NFS.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -19141,9 +19141,9 @@ func (m *VolumeSource) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x42
 	}
-	if m.P9 != nil {
+	if m.NFS != nil {
 		{
-			size, err := m.P9.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.NFS.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -21087,7 +21087,7 @@ func (m *LocalVolumeSource) Size() (n int) {
 	return n
 }
 
-func (m *P9VolumeSource) Size() (n int) {
+func (m *NFSVolumeSource) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -21763,8 +21763,8 @@ func (m *PersistentVolumeSource) Size() (n int) {
 		l = m.Glusterfs.Size()
 		n += 1 + l + sovGenerated(uint64(l))
 	}
-	if m.P9 != nil {
-		l = m.P9.Size()
+	if m.NFS != nil {
+		l = m.NFS.Size()
 		n += 1 + l + sovGenerated(uint64(l))
 	}
 	if m.RBD != nil {
@@ -23730,8 +23730,8 @@ func (m *VolumeSource) Size() (n int) {
 		l = m.Secret.Size()
 		n += 1 + l + sovGenerated(uint64(l))
 	}
-	if m.P9 != nil {
-		l = m.P9.Size()
+	if m.NFS != nil {
+		l = m.NFS.Size()
 		n += 1 + l + sovGenerated(uint64(l))
 	}
 	if m.ISCSI != nil {
@@ -25199,11 +25199,11 @@ func (this *LocalVolumeSource) String() string {
 	}, "")
 	return s
 }
-func (this *P9VolumeSource) String() string {
+func (this *NFSVolumeSource) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&P9VolumeSource{`,
+	s := strings.Join([]string{`&NFSVolumeSource{`,
 		`Server:` + fmt.Sprintf("%v", this.Server) + `,`,
 		`Path:` + fmt.Sprintf("%v", this.Path) + `,`,
 		`ReadOnly:` + fmt.Sprintf("%v", this.ReadOnly) + `,`,
@@ -25733,7 +25733,7 @@ func (this *PersistentVolumeSource) String() string {
 		`AWSElasticBlockStore:` + strings.Replace(this.AWSElasticBlockStore.String(), "AWSElasticBlockStoreVolumeSource", "AWSElasticBlockStoreVolumeSource", 1) + `,`,
 		`HostPath:` + strings.Replace(this.HostPath.String(), "HostPathVolumeSource", "HostPathVolumeSource", 1) + `,`,
 		`Glusterfs:` + strings.Replace(this.Glusterfs.String(), "GlusterfsPersistentVolumeSource", "GlusterfsPersistentVolumeSource", 1) + `,`,
-		`P9:` + strings.Replace(this.P9.String(), "P9VolumeSource", "P9VolumeSource", 1) + `,`,
+		`NFS:` + strings.Replace(this.NFS.String(), "NFSVolumeSource", "NFSVolumeSource", 1) + `,`,
 		`RBD:` + strings.Replace(this.RBD.String(), "RBDPersistentVolumeSource", "RBDPersistentVolumeSource", 1) + `,`,
 		`ISCSI:` + strings.Replace(this.ISCSI.String(), "ISCSIPersistentVolumeSource", "ISCSIPersistentVolumeSource", 1) + `,`,
 		`Cinder:` + strings.Replace(this.Cinder.String(), "CinderPersistentVolumeSource", "CinderPersistentVolumeSource", 1) + `,`,
@@ -27204,7 +27204,7 @@ func (this *VolumeSource) String() string {
 		`AWSElasticBlockStore:` + strings.Replace(this.AWSElasticBlockStore.String(), "AWSElasticBlockStoreVolumeSource", "AWSElasticBlockStoreVolumeSource", 1) + `,`,
 		`GitRepo:` + strings.Replace(this.GitRepo.String(), "GitRepoVolumeSource", "GitRepoVolumeSource", 1) + `,`,
 		`Secret:` + strings.Replace(this.Secret.String(), "SecretVolumeSource", "SecretVolumeSource", 1) + `,`,
-		`P9:` + strings.Replace(this.P9.String(), "P9VolumeSource", "P9VolumeSource", 1) + `,`,
+		`NFS:` + strings.Replace(this.NFS.String(), "NFSVolumeSource", "NFSVolumeSource", 1) + `,`,
 		`ISCSI:` + strings.Replace(this.ISCSI.String(), "ISCSIVolumeSource", "ISCSIVolumeSource", 1) + `,`,
 		`Glusterfs:` + strings.Replace(this.Glusterfs.String(), "GlusterfsVolumeSource", "GlusterfsVolumeSource", 1) + `,`,
 		`PersistentVolumeClaim:` + strings.Replace(this.PersistentVolumeClaim.String(), "PersistentVolumeClaimVolumeSource", "PersistentVolumeClaimVolumeSource", 1) + `,`,
@@ -42537,7 +42537,7 @@ func (m *LocalVolumeSource) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *P9VolumeSource) Unmarshal(dAtA []byte) error {
+func (m *NFSVolumeSource) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -42560,10 +42560,10 @@ func (m *P9VolumeSource) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: P9VolumeSource: wiretype end group for non-group")
+			return fmt.Errorf("proto: NFSVolumeSource: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: P9VolumeSource: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: NFSVolumeSource: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -48524,7 +48524,7 @@ func (m *PersistentVolumeSource) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field P9", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NFS", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -48551,10 +48551,10 @@ func (m *PersistentVolumeSource) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.P9 == nil {
-				m.P9 = &P9VolumeSource{}
+			if m.NFS == nil {
+				m.NFS = &NFSVolumeSource{}
 			}
-			if err := m.P9.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.NFS.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -66029,7 +66029,7 @@ func (m *VolumeSource) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field P9", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NFS", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -66056,10 +66056,10 @@ func (m *VolumeSource) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.P9 == nil {
-				m.P9 = &P9VolumeSource{}
+			if m.NFS == nil {
+				m.NFS = &NFSVolumeSource{}
 			}
-			if err := m.P9.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.NFS.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

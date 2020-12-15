@@ -136,7 +136,7 @@ const (
 	SYS_SETRESUID                    = 164
 	SYS_GETRESUID                    = 165
 	SYS_POLL                         = 168
-	SYS_P9SERVCTL                   = 169
+	SYS_NFSSERVCTL                   = 169
 	SYS_SETRESGID                    = 170
 	SYS_GETRESGID                    = 171
 	SYS_PRCTL                        = 172

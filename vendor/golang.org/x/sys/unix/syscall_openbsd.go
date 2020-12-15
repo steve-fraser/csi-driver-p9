@@ -365,7 +365,7 @@ func Uname(uname *Utsname) error {
 // msgget
 // msgrcv
 // msgsnd
-// p9svc
+// nfssvc
 // nnpfspioctl
 // preadv
 // profil

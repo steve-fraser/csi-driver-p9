@@ -1105,7 +1105,7 @@ const (
 	AWSElasticBlockStore  FSType = "awsElasticBlockStore"
 	GitRepo               FSType = "gitRepo"
 	Secret                FSType = "secret"
-	P9                   FSType = "p9"
+	NFS                   FSType = "nfs"
 	ISCSI                 FSType = "iscsi"
 	Glusterfs             FSType = "glusterfs"
 	PersistentVolumeClaim FSType = "persistentVolumeClaim"

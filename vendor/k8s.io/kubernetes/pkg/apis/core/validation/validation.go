@@ -495,12 +495,12 @@ func validateVolumeSource(source *core.VolumeSource, fldPath *field.Path, volNam
 			allErrs = append(allErrs, validateSecretVolumeSource(source.Secret, fldPath.Child("secret"))...)
 		}
 	}
-	if source.P9 != nil {
+	if source.NFS != nil {
 		if numVolumes > 0 {
-			allErrs = append(allErrs, field.Forbidden(fldPath.Child("p9"), "may not specify more than 1 volume type"))
+			allErrs = append(allErrs, field.Forbidden(fldPath.Child("nfs"), "may not specify more than 1 volume type"))
 		} else {
 			numVolumes++
-			allErrs = append(allErrs, validateP9VolumeSource(source.P9, fldPath.Child("p9"))...)
+			allErrs = append(allErrs, validateNFSVolumeSource(source.NFS, fldPath.Child("nfs"))...)
 		}
 	}
 	if source.ISCSI != nil {
@@ -920,16 +920,16 @@ func validatePersistentClaimVolumeSource(claim *core.PersistentVolumeClaimVolume
 	return allErrs
 }
 
-func validateP9VolumeSource(p9 *core.P9VolumeSource, fldPath *field.Path) field.ErrorList {
+func validateNFSVolumeSource(nfs *core.NFSVolumeSource, fldPath *field.Path) field.ErrorList {
 	allErrs := field.ErrorList{}
-	if len(p9.Server) == 0 {
+	if len(nfs.Server) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("server"), ""))
 	}
-	if len(p9.Path) == 0 {
+	if len(nfs.Path) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("path"), ""))
 	}
-	if !path.IsAbs(p9.Path) {
-		allErrs = append(allErrs, field.Invalid(fldPath.Child("path"), p9.Path, "must be an absolute path"))
+	if !path.IsAbs(nfs.Path) {
+		allErrs = append(allErrs, field.Invalid(fldPath.Child("path"), nfs.Path, "must be an absolute path"))
 	}
 	return allErrs
 }
@@ -1734,12 +1734,12 @@ func ValidatePersistentVolumeSpec(pvSpec *core.PersistentVolumeSpec, pvName stri
 			allErrs = append(allErrs, validateFlockerVolumeSource(pvSpec.Flocker, fldPath.Child("flocker"))...)
 		}
 	}
-	if pvSpec.P9 != nil {
+	if pvSpec.NFS != nil {
 		if numVolumes > 0 {
-			allErrs = append(allErrs, field.Forbidden(fldPath.Child("p9"), "may not specify more than 1 volume type"))
+			allErrs = append(allErrs, field.Forbidden(fldPath.Child("nfs"), "may not specify more than 1 volume type"))
 		} else {
 			numVolumes++
-			allErrs = append(allErrs, validateP9VolumeSource(pvSpec.P9, fldPath.Child("p9"))...)
+			allErrs = append(allErrs, validateNFSVolumeSource(pvSpec.NFS, fldPath.Child("nfs"))...)
 		}
 	}
 	if pvSpec.RBD != nil {

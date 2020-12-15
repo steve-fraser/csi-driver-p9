@@ -987,15 +987,15 @@ func (LocalVolumeSource) SwaggerDoc() map[string]string {
 	return map_LocalVolumeSource
 }
 
-var map_P9VolumeSource = map[string]string{
-	"":         "Represents an P9 mount that lasts the lifetime of a pod. P9 volumes do not support ownership management or SELinux relabeling.",
-	"server":   "Server is the hostname or IP address of the P9 server. More info: https://kubernetes.io/docs/concepts/storage/volumes#p9",
-	"path":     "Path that is exported by the P9 server. More info: https://kubernetes.io/docs/concepts/storage/volumes#p9",
-	"readOnly": "ReadOnly here will force the P9 export to be mounted with read-only permissions. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#p9",
+var map_NFSVolumeSource = map[string]string{
+	"":         "Represents an NFS mount that lasts the lifetime of a pod. NFS volumes do not support ownership management or SELinux relabeling.",
+	"server":   "Server is the hostname or IP address of the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",
+	"path":     "Path that is exported by the NFS server. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",
+	"readOnly": "ReadOnly here will force the NFS export to be mounted with read-only permissions. Defaults to false. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",
 }
 
-func (P9VolumeSource) SwaggerDoc() map[string]string {
-	return map_P9VolumeSource
+func (NFSVolumeSource) SwaggerDoc() map[string]string {
+	return map_NFSVolumeSource
 }
 
 var map_Namespace = map[string]string{
@@ -1365,7 +1365,7 @@ var map_PersistentVolumeSource = map[string]string{
 	"awsElasticBlockStore": "AWSElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
 	"hostPath":             "HostPath represents a directory on the host. Provisioned by a developer or tester. This is useful for single-node development and testing only! On-host storage is not supported in any way and WILL NOT WORK in a multi-node cluster. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath",
 	"glusterfs":            "Glusterfs represents a Glusterfs volume that is attached to a host and exposed to the pod. Provisioned by an admin. More info: https://examples.k8s.io/volumes/glusterfs/README.md",
-	"p9":                  "P9 represents an P9 mount on the host. Provisioned by an admin. More info: https://kubernetes.io/docs/concepts/storage/volumes#p9",
+	"nfs":                  "NFS represents an NFS mount on the host. Provisioned by an admin. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",
 	"rbd":                  "RBD represents a Rados Block Device mount on the host that shares a pod's lifetime. More info: https://examples.k8s.io/volumes/rbd/README.md",
 	"iscsi":                "ISCSI represents an ISCSI Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Provisioned by an admin.",
 	"cinder":               "Cinder represents a cinder volume attached and mounted on kubelets host machine. More info: https://examples.k8s.io/mysql-cinder-pd/README.md",
@@ -2441,7 +2441,7 @@ var map_VolumeSource = map[string]string{
 	"awsElasticBlockStore":  "AWSElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
 	"gitRepo":               "GitRepo represents a git repository at a particular revision. DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container.",
 	"secret":                "Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret",
-	"p9":                   "P9 represents an P9 mount on the host that shares a pod's lifetime More info: https://kubernetes.io/docs/concepts/storage/volumes#p9",
+	"nfs":                   "NFS represents an NFS mount on the host that shares a pod's lifetime More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",
 	"iscsi":                 "ISCSI represents an ISCSI Disk resource that is attached to a kubelet's host machine and then exposed to the pod. More info: https://examples.k8s.io/volumes/iscsi/README.md",
 	"glusterfs":             "Glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime. More info: https://examples.k8s.io/volumes/glusterfs/README.md",
 	"persistentVolumeClaim": "PersistentVolumeClaimVolumeSource represents a reference to a PersistentVolumeClaim in the same namespace. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",

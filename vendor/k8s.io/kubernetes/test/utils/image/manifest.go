@@ -161,8 +161,8 @@ const (
 	Kitten
 	// Nautilus image
 	Nautilus
-	// P9Provisioner image
-	P9Provisioner
+	// NFSProvisioner image
+	NFSProvisioner
 	// Nginx image
 	Nginx
 	// NginxNew image
@@ -188,8 +188,8 @@ const (
 	ResourceConsumer
 	// SdDummyExporter image
 	SdDummyExporter
-	// VolumeP9Server image
-	VolumeP9Server
+	// VolumeNFSServer image
+	VolumeNFSServer
 	// VolumeISCSIServer image
 	VolumeISCSIServer
 	// VolumeGlusterServer image
@@ -221,7 +221,7 @@ func initImageConfigs() map[int]Config {
 	configs[JessieDnsutils] = Config{e2eRegistry, "jessie-dnsutils", "1.0"}
 	configs[Kitten] = Config{e2eRegistry, "kitten", "1.0"}
 	configs[Nautilus] = Config{e2eRegistry, "nautilus", "1.0"}
-	configs[P9Provisioner] = Config{sigStorageRegistry, "p9-provisioner", "v2.2.2"}
+	configs[NFSProvisioner] = Config{sigStorageRegistry, "nfs-provisioner", "v2.2.2"}
 	configs[Nginx] = Config{dockerLibraryRegistry, "nginx", "1.14-alpine"}
 	configs[NginxNew] = Config{dockerLibraryRegistry, "nginx", "1.15-alpine"}
 	configs[Nonewprivs] = Config{e2eRegistry, "nonewprivs", "1.0"}
@@ -235,7 +235,7 @@ func initImageConfigs() map[int]Config {
 	configs[RegressionIssue74839] = Config{e2eRegistry, "regression-issue-74839-amd64", "1.0"}
 	configs[ResourceConsumer] = Config{e2eRegistry, "resource-consumer", "1.5"}
 	configs[SdDummyExporter] = Config{gcRegistry, "sd-dummy-exporter", "v0.2.0"}
-	configs[VolumeP9Server] = Config{e2eVolumeRegistry, "nfs", "1.0"}
+	configs[VolumeNFSServer] = Config{e2eVolumeRegistry, "nfs", "1.0"}
 	configs[VolumeISCSIServer] = Config{e2eVolumeRegistry, "iscsi", "2.0"}
 	configs[VolumeGlusterServer] = Config{e2eVolumeRegistry, "gluster", "1.0"}
 	configs[VolumeRBDServer] = Config{e2eVolumeRegistry, "rbd", "1.0.1"}

@@ -1693,7 +1693,7 @@ var errorList = [...]struct {
 	{67, "EPROCLIM", "too many processes"},
 	{68, "EUSERS", "too many users"},
 	{69, "EDQUOT", "disc quota exceeded"},
-	{70, "ESTALE", "stale P9 file handle"},
+	{70, "ESTALE", "stale NFS file handle"},
 	{71, "EREMOTE", "too many levels of remote in path"},
 	{72, "EBADRPC", "RPC struct is bad"},
 	{73, "ERPCMISMATCH", "RPC version wrong"},

@@ -276,7 +276,7 @@ kqueue: Fix logic for CREATE after REMOVE [#111](https://github.com/fsnotify/fsn
 ## v0.4.0 / 2012-03-30
 
 * Go 1 released: build with go tool
-* [Feature] Windows support using wip9notify
+* [Feature] Windows support using winfsnotify
 * Windows does not have attribute change notifications
 * Roll attribute notifications into IsModify
 

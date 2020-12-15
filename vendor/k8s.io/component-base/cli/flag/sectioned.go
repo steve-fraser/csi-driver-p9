@@ -35,15 +35,15 @@ type NamedFlagSets struct {
 
 // FlagSet returns the flag set with the given name and adds it to the
 // ordered name list if it is not in there yet.
-func (p9 *NamedFlagSets) FlagSet(name string) *pflag.FlagSet {
-	if p9.FlagSets == nil {
-		p9.FlagSets = map[string]*pflag.FlagSet{}
+func (nfs *NamedFlagSets) FlagSet(name string) *pflag.FlagSet {
+	if nfs.FlagSets == nil {
+		nfs.FlagSets = map[string]*pflag.FlagSet{}
 	}
-	if _, ok := p9.FlagSets[name]; !ok {
-		p9.FlagSets[name] = pflag.NewFlagSet(name, pflag.ExitOnError)
-		p9.Order = append(p9.Order, name)
+	if _, ok := nfs.FlagSets[name]; !ok {
+		nfs.FlagSets[name] = pflag.NewFlagSet(name, pflag.ExitOnError)
+		nfs.Order = append(nfs.Order, name)
 	}
-	return p9.FlagSets[name]
+	return nfs.FlagSets[name]
 }
 
 // PrintSections prints the given names flag sets in sections, with the maximal given column number.
